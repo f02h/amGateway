@@ -29,4 +29,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function todo()
+
+    {
+
+        return $this->hasMany('App\Msg','idGateway');
+
+    }
 }
