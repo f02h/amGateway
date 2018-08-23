@@ -13,7 +13,7 @@ class Msg extends Model implements AuthenticatableContract, AuthorizableContract
     use Authenticatable, Authorizable;
 
 
-    protected $table = 'msgs';
+    protected $table = 'srv_GatewayMsg';
 
     protected $fillable = [
         'idGateway', 'msgAction', 'msgStatus', 'msgDate', 'msgId', 'msg', 'status', 'instance',
