@@ -18,3 +18,5 @@ $router->get('/', function () use ($router) {
 $router->get('/msg/', function () use ($router) {
     return App\Msg::all();
 });
+
+$router->get('msg/{id}/', 'MsgController@show');

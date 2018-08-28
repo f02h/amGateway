@@ -58,7 +58,7 @@ class MsgController extends Controller
      */
     public function show($id)
     {
-        $todo = Msg::where('idGateway', $id)->get();
+        $todo = Msg::all();
         return response()->json($todo);
 
     }
