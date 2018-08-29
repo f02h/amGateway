@@ -21,6 +21,7 @@ $router->get('/msg/', function () use ($router) {
 
 $router->get('msg/{id}/', 'MsgController@show');
 
-$router->get('cred/', 'CredController@index');
+$router->post('cred/', 'CredController@store');
+$router->get('cred/{id}', 'CredController@show');
 
 

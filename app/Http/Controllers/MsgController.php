@@ -64,39 +64,6 @@ class MsgController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $todo = Todo::where('idGateway', $id)->get();
-        return view('todo.edittodo',['todos' => $todo]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'todo' => 'filled',
-            'description' => 'filled',
-            'category' => 'filled'
-        ]);
-        $todo = Msg::find($id);
-        if($todo->fill($request->all())->save()){
-            return response()->json(['status' => 'success']);
-        }
-        return response()->json(['status' => 'failed']);
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

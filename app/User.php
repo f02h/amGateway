@@ -33,7 +33,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function todo()
 
     {
-
         return $this->hasMany('App\Msg','idGateway');
 
     }

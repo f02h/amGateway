@@ -35,7 +35,9 @@ CREATE TABLE `srv_GatewayCred` (
   `salt` varchar(8) DEFAULT NULL,
   `host` varchar(250) DEFAULT NULL,
   `port` int(11) DEFAULT NULL,
-  `transport` varchar(100) DEFAULT NULL
+  `transport` varchar(100) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `srv_GatewayCred`

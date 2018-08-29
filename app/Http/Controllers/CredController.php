@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Msg;
+use App\Cred;
 use Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class CredController extends Controller
 {
@@ -19,17 +21,6 @@ class CredController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $todo = Auth::user()->todo()->get();
-        return response()->json(['status' => 'success','result' => $todo]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -38,11 +29,20 @@ class CredController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'todo' => 'required',
-            'description' => 'required',
-            'category' => 'required'
+            'idGateway' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'host' => 'required',
+            'port' => 'required',
+            'transport' => 'required'
         ]);
-        if(Auth::user()->todo()->Create($request->all())){
+        if(Auth::user()){
+            $newCred = new Cred();
+            $data = $request->all();
+            $data['password'] = Crypt::encrypt($data['password']);
+
+            $newCred->fill($data);
+            $newCred->save();
             return response()->json(['status' => 'success']);
         }else{
             return response()->json(['status' => 'fail']);
@@ -58,54 +58,11 @@ class CredController extends Controller
      */
     public function show($id)
     {
-        $todo = Msg::all();
-        return response()->json($todo);
+        $data = Cred::where('idGateway', $id)->first();
+        $data['password'] = Crypt::decrypt($data['password']);
 
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $todo = Todo::where('idGateway', $id)->get();
-        return view('todo.edittodo',['todos' => $todo]);
-    }
+        return response()->json($data);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'todo' => 'filled',
-            'description' => 'filled',
-            'category' => 'filled'
-        ]);
-        $todo = Msg::find($id);
-        if($todo->fill($request->all())->save()){
-            return response()->json(['status' => 'success']);
-        }
-        return response()->json(['status' => 'failed']);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        if(Msg::destroy($id)){
-            return response()->json(['status' => 'success']);
-        }
     }
 }
