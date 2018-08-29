@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Msg;
 use Auth;
+use App\Cred;
+use Illuminate\Support\Facades\Crypt;
+
+
 
 class MsgController extends Controller
 {
@@ -58,8 +63,17 @@ class MsgController extends Controller
      */
     public function show($id)
     {
-        $todo = Msg::all();
-        return response()->json($todo);
+        foreach (Cred::all() as $gateway) {
+            $epp = null;
+            if ($gateway->idGateway == 'Arnes') {
+                $epp = new \App\Register\Arnes($gateway->username, Crypt::decrypt($gateway->password), $gateway->transport, $gateway->host, $gateway->port);
+            }
+
+            if ($epp) {
+                $epp->readMessages();
+            }
+        }
+        return response()->json(['status' => 'success']);
 
     }
 

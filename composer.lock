@@ -4,9 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "06aab08d29d57973560dfc2bc2d9c2a9",
-    "content-hash": "ad8af3a630c5aaf41cb4c34e85f43c43",
+    "hash": "14476e22eb9d1cc76cb0c9c206c68b78",
+    "content-hash": "630557a706159f158e23e34088563746",
     "packages": [
+        {
+            "name": "africc/php-epp2",
+            "version": "0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AfriCC/php-epp2.git",
+                "reference": "0e6fd9dabf2d2e50afaa76876edf00939b990354"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AfriCC/php-epp2/zipball/0e6fd9dabf2d2e50afaa76876edf00939b990354",
+                "reference": "0e6fd9dabf2d2e50afaa76876edf00939b990354",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-openssl": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AfriCC\\": "src/AfriCC"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Gunter Grodotzki",
+                    "email": "hello@afri.cc",
+                    "homepage": "https://www.afri.cc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A High Level EPP (Extensible Provisioning Protocol) TCP/SSL Client for PHP",
+            "homepage": "https://github.com/AfriCC/php-epp2",
+            "keywords": [
+                "client",
+                "domains",
+                "epp",
+                "registrar",
+                "registry",
+                "tcp"
+            ],
+            "time": "2017-04-27 07:55:58"
+        },
         {
             "name": "doctrine/inflector",
             "version": "v1.3.0",
