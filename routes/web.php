@@ -20,3 +20,7 @@ $router->get('/msg/', function () use ($router) {
 });
 
 $router->get('msg/{id}/', 'MsgController@show');
+
+$router->get('cred/', 'CredController@index');
+
+
