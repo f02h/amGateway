@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //
+        /*
         $schedule->call(function () {
             foreach (Cred::all() as $gateway) {
                 $epp = null;
@@ -39,6 +40,6 @@ class Kernel extends ConsoleKernel
                 }
             }
         })->everyMinute();
-
+*/
     }
 }

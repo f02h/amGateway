@@ -65,8 +65,12 @@ class MsgController extends Controller
     {
         foreach (Cred::all() as $gateway) {
             $epp = null;
-            if ($gateway->idGateway == 'Arnes') {
+            /*if ($gateway->idGateway == 'Arnes') {
                 $epp = new \App\Register\Arnes($gateway->username, Crypt::decrypt($gateway->password), $gateway->transport, $gateway->host, $gateway->port);
+            }*/
+
+            if ($gateway->idGateway == 'Eurid') {
+                $epp = new \App\Register\Eurid($gateway->username, Crypt::decrypt($gateway->password), $gateway->transport, $gateway->host, $gateway->port);
             }
 
             if ($epp) {
