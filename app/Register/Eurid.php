@@ -185,7 +185,7 @@ class Eurid extends EPP
                 $newMsg->domain = $pollData['context'] == 'TRANSFER' && $pollData['objectType'] == 'DOMAIN' ? $pollData['object'] : '';
                 $newMsg->msgAction = $pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY' ? 'TRANSFER_OUT' : '';
                 $newMsg->msgDate = $msg['date'];
-                $newMsg->msg = implode(',',$msg['message']['pollData']);
+                $newMsg->msg = $msg['response'];
                 $newMsg->msgId = $msg['messageID'];
                 $newMsg->save();
             }
