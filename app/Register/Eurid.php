@@ -175,7 +175,7 @@ class Eurid extends EPP
         }
 
         foreach ($messages as $msg) {
-            if (!Msg::where('msgId', $msg->messageID)->first()) {
+            if (!Msg::where('msgId', $msg['messageID'])->first()) {
                 $newMsg = new \App\Msg();
                 $newMsg->idGateway = 'Eurid';
                 $newMsg->msgDate = $msg['date'];
