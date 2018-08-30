@@ -7,7 +7,9 @@ CREATE TABLE `srv_GatewayMsg` (
   `msgId` varchar(255) DEFAULT NULL,
   `msg` text NOT NULL,
   `status` enum('ACC','NOT_INTERESTED','PROCESSED') DEFAULT NULL,
-  `instance` varchar(5) DEFAULT NULL
+  `instance` varchar(5) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- Indexes for table `srv_GatewayMsg`

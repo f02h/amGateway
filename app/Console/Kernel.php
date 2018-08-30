@@ -27,12 +27,16 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //
-        /*
+
         $schedule->call(function () {
             foreach (Cred::all() as $gateway) {
                 $epp = null;
-                if ($gateway->idGateway == 'Arnes') {
-                    $epp = new \App\Register\Arnes($gateway->username, Crypt::decrypt($gateway->password), $gateway->transport, $gateway->hostname, $gateway->port);
+//                if ($gateway->idGateway == 'Arnes') {
+//                    $epp = new \App\Register\Arnes($gateway->username, Crypt::decrypt($gateway->password), $gateway->transport, $gateway->hostname, $gateway->port);
+//                }
+
+                if ($gateway->idGateway == 'Eurid') {
+                    $epp = new \App\Register\Eurid($gateway->username, Crypt::decrypt($gateway->password), $gateway->transport, $gateway->hostname, $gateway->port);
                 }
 
                 if ($epp) {
@@ -40,6 +44,6 @@ class Kernel extends ConsoleKernel
                 }
             }
         })->everyMinute();
-*/
+
     }
 }

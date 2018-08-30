@@ -2,6 +2,7 @@
 
 namespace App\Register;
 
+use App\Msg;
 use Exception;
 
 use AfriCC\EPP\Client as EPPClient;
@@ -174,12 +175,14 @@ class Eurid extends EPP
         }
 
         foreach ($messages as $msg) {
-            $newMsg = new \App\Msg();
-            $newMsg->idGateway = 'Eurid';
-            $newMsg->msgDate = $msg->date;
-            $newMsg->msg = $msg->message;
-            $newMsg->msgId = $msg->messageID;
-            $newMsg->save();
+            if (!Msg::where('msgId', $msg->messageID)->first()) {
+                $newMsg = new \App\Msg();
+                $newMsg->idGateway = 'Eurid';
+                $newMsg->msgDate = $msg['date'];
+                $newMsg->msg = implode(',',$msg['message']['pollData']);
+                $newMsg->msgId = $msg['messageID'];
+                $newMsg->save();
+            }
         }
 
         return true;
