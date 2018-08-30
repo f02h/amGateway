@@ -43,7 +43,7 @@ class Kernel extends ConsoleKernel
                     $epp->readMessages();
                 }
             }
-        })->everyMinute();
+        })->everyTenMinutes();
 
     }
 }

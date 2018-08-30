@@ -156,7 +156,8 @@ class Eurid extends EPP
                     'date' => $this->_response->queueDate(),
                     'title' => $this->_response->queueMessage(),
                     'messageID' => $this->_response->queueId(),
-                    'message' => $this->_response->data() ? $this->_response->data() : ''
+                    'message' => $this->_response->data() ? $this->_response->data() : '',
+                    'response' => $this->_response
                 );
 
                 //$frame = new AfriCC\EPP\Frame\Command\Poll;
@@ -176,8 +177,13 @@ class Eurid extends EPP
 
         foreach ($messages as $msg) {
             if (!Msg::where('msgId', $msg['messageID'])->first()) {
+
+                $pollData = $msg['message']['pollData'];
+
                 $newMsg = new \App\Msg();
                 $newMsg->idGateway = 'Eurid';
+                $newMsg->domain = $pollData['context'] == 'TRANSFER' && $pollData['objectType'] == 'DOMAIN' ? $pollData['object'] : '';
+                $newMsg->msgAction = $pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY' ? 'TRANSFER_OUT' : '';
                 $newMsg->msgDate = $msg['date'];
                 $newMsg->msg = implode(',',$msg['message']['pollData']);
                 $newMsg->msgId = $msg['messageID'];
