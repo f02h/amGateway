@@ -20,6 +20,11 @@ class CredController extends Controller
         $this->middleware('auth');
     }
 
+    public function index() {
+        return view('reg_show', ['data' => Cred::all()]);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
