@@ -1,4 +1,4 @@
-CREATE TABLE `srv_GatewayMsg` (
+CREATE TABLE `gatewayMsg` (
   `idGatewayMsg` int(11) NOT NULL,
   `idGateway` varchar(45) NOT NULL,
   `domain` varchar(255) DEFAULT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `srv_GatewayMsg` (
 --
 -- Indexes for table `srv_GatewayMsg`
 --
-ALTER TABLE `srv_GatewayMsg`
+ALTER TABLE `gatewayMsg`
   ADD PRIMARY KEY (`idGatewayMsg`),
   ADD KEY `fk_dom_Register_dom_Gateway1_idx` (`idGateway`);
 
@@ -26,11 +26,11 @@ ALTER TABLE `srv_GatewayMsg`
 --
 -- AUTO_INCREMENT for table `srv_GatewayMsg`
 --
-ALTER TABLE `srv_GatewayMsg`
+ALTER TABLE `gatewayMsg`
   MODIFY `idGatewayMsg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
 
 
-CREATE TABLE `srv_GatewayCred` (
+CREATE TABLE `gatewayCred` (
   `idGatewayCred` int(11) NOT NULL,
   `idGateway` varchar(45) NOT NULL,
   `username` varchar(100) DEFAULT NULL,
@@ -43,5 +43,6 @@ CREATE TABLE `srv_GatewayCred` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `srv_GatewayCred`
+ALTER TABLE `gatewayCred`
+ADD PRIMARY KEY (`idGatewayCred`),
   MODIFY `idGatewayCred` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
