@@ -108,11 +108,9 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
 });
 
-$app->router->group(['prefix'=>'admin/', 'middleware' => 'BasicAuth', 'namespace' => 'App\Http\Controllers'], function($app) {
-
-    $app->get('/', 'CredController@show');
-    $app->get('/manage', 'CredController@index');
-
+$app->router->group(['prefix'=>'admin/', 'middleware' => 'BasicAuth', 'namespace' => 'App\Http\Controllers'], function ($router) {
+    require __DIR__.'/../routes/web_basic.php';
 });
+
 
 return $app;

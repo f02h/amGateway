@@ -61,13 +61,15 @@ class CredController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        $data = Cred::where('idGateway', $id)->first();
-        $data['password'] = Crypt::decrypt($data['password']);
+        return view('reg_show', ['data' => Cred::all()]);
 
+    }
 
-        return response()->json($data);
+    public function edit($id)
+    {
+        return view('reg_edit', ['data' => Cred::where('idGatewayCred', $id)->first()]);
 
     }
 }
