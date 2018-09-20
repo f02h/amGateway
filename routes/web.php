@@ -23,3 +23,6 @@ $router->get('users', function() {
 $router->get('/key', function() {
     return str_random(32);
 });
+$router->post('/key', function() {
+    return str_random(32);
+});
