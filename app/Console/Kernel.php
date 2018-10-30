@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Crypt;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 use App\Cred;
 
-use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
 
 class Kernel extends ConsoleKernel
