@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Msg;
-use App\Cred;
+use App\Token;
 use Auth;
 use Illuminate\Support\Facades\Crypt;
 
-class CredController extends Controller
+class TokenController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -21,7 +21,7 @@ class CredController extends Controller
     }
 
     public function index() {
-        return view('reg_show', ['credData' => Cred::all()]);
+        return view('token_show', ['data' => Token::all()]);
     }
 
 
@@ -46,7 +46,7 @@ class CredController extends Controller
             $cred = Cred::find($id);
             $cred->update($params);
 
-            return redirect()->route('route_name');
+            return view('reg_show', ['data' => Cred::all()]);
         }else{
             return response()->json(['status' => 'fail']);
         }
@@ -72,7 +72,7 @@ class CredController extends Controller
 
             $newCred->fill($data);
             $newCred->save();
-            return view('reg_show', ['credData' => Cred::all()]);
+            return view('reg_show', ['data' => Cred::all()]);
         }else{
             return response()->json(['status' => 'fail']);
         }
@@ -87,14 +87,13 @@ class CredController extends Controller
      */
     public function show($id)
     {
-        return view('reg_edit', ['credData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
+        return view('reg_edit', ['data' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
 
     }
 
     public function edit($id)
     {
-        var_dump('tes');die;
-        return view('reg_edit', ['credData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
+        return view('token_edit', ['data' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
 
     }
 

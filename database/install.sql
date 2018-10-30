@@ -46,3 +46,17 @@ CREATE TABLE `gatewayCred` (
 ALTER TABLE `gatewayCred`
 ADD PRIMARY KEY (`idGatewayCred`),
   MODIFY `idGatewayCred` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+
+
+CREATE TABLE `gatewayToken` (
+  `idGatewayToken` int(11) NOT NULL,
+  `tokenName` varchar(100) DEFAULT NULL,
+  `token` varchar(250) DEFAULT NULL,
+  `token` timestamp NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `gatewayToken`
+ADD PRIMARY KEY (`idGatewayToken`),
+  MODIFY `idGatewayToken` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;

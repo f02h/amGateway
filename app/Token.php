@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class Cred extends Model implements AuthenticatableContract, AuthorizableContract
+class Token extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
-    protected $primaryKey = 'idGatewayCred';
-    protected $table = 'gatewayCred';
+    protected $primaryKey = 'idGatewayToken';
+    protected $table = 'gatewayToken';
 
     protected $fillable = [
-        'idGateway', 'username', 'password', 'salt', 'host', 'port', 'transport'
+        'tokenName', 'token', 'valid'
     ];
 
 }
