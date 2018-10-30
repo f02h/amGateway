@@ -15,6 +15,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+
 $router->get('/msg/', function () use ($router) {
     return App\Msg::all();
 });
@@ -23,4 +24,17 @@ $router->get('msg/{id}/', 'MsgController@show');
 
 $router->get('/reg/{id}', 'CredController@show');
 
+
+
+$router->get('users', function() {
+    $users = \App\User::all();
+    return response()->json($users);
+});
+
+$router->get('/key', function() {
+    return str_random(32);
+});
+$router->post('/key', function() {
+    return str_random(32);
+});
 

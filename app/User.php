@@ -30,10 +30,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
+
     public function todo()
 
     {
         return $this->hasMany('App\Msg','idGateway');
 
     }
+
 }
