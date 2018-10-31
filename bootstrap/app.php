@@ -120,8 +120,6 @@ $app->routeMiddleware([
 */
 
 
-$app->router->group([
-
 $app->router->group(['middleware' => 'jwt.auth',
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
