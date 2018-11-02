@@ -11,15 +11,11 @@
 |
 */
 
-
-
 use Illuminate\Support\Facades\Hash;
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
-        'name'     => $faker->name,
-        'email'    => $faker->unique()->email,
+        'username'    => $faker->unique()->email,
         'password' => Hash::make('12345'),
-
     ];
 });

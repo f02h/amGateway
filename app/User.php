@@ -12,30 +12,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $primaryKey = 'idGatewayUser';
+    protected $table = 'gatewayUser';
+
     protected $fillable = [
-        'name', 'email',
+        'username', "password",
     ];
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
-
-
-    public function todo()
-
-    {
-        return $this->hasMany('App\Msg','idGateway');
-
-    }
 
 }
