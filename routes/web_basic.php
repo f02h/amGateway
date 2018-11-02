@@ -1,6 +1,7 @@
 <?php
 
 $router->get('/', 'AdminController@index');
+$router->get('logout', 'AdminController@logout');
 $router->get('cred/{id}', 'CredController@show');
 $router->put('cred/{id}', 'CredController@store');
 $router->post('cred', 'CredController@create');

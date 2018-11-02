@@ -14,10 +14,18 @@ class BasicAuthMiddleware
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        if($request->getUser() != 'admin' || $request->getPassword() != env('A_PASS')) {
-            $headers = array('WWW-Authenticate' => 'Basic');
-            return response('Admin Login', 401, $headers);
+
+        $envs = [
+            'staging',
+            'production'
+        ];
+
+        if(in_array(app()->environment(), $envs)) {
+            if ($request->getUser() != 'admin' || $request->getPassword() != env('A_PASS')) {
+                $headers = array('WWW-Authenticate' => 'Basic');
+                return response('Admin Login', 401, $headers);
+            }
+            return $next($request);
         }
-        return $next($request);
     }
 }

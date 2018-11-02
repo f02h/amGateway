@@ -18,11 +18,15 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('BasicAuth');
     }
 
     public function index() {
         return view('reg_show', ['credData' => Cred::all(), 'tokenData' => Token::all()]);
+    }
+
+    public function logout() {
+        return redirect('/');
     }
 
 

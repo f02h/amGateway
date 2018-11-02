@@ -4,9 +4,11 @@
 
 
 <html>
-<body>
-<h1>Gateway</h1><a class="btn edit" href="<?= url("/admin/cred") ?>">Add</a>
-<table class="table">
+<br>
+<a class="btn edit" style="display: block;float: right;margin-right: 20px;" href="<?= url("/") ?>">Logout</a>
+
+<h1 style="display: inline-block; margin: 0 20px;">Gateways</h1><a class="btn edit" style="position: relative;top: -10px;" href="<?= url("/admin/cred") ?>">Add</a>
+<table class="table" style="margin: 0 20px;">
     <thead>
     <tr>
         <th scope="col"></th>
@@ -39,8 +41,8 @@
     </tbody>
 </table>
 <br>
-<h1>Tokens</h1>
-<table class="table">
+<h1 style="display: inline-block; margin: 0 20px;">Tokens</h1><a class="btn edit" style="position: relative;top: -10px;" href="<?= url("/admin/token") ?>">Add</a>
+<table class="table" style="margin: 0 20px;">
     <thead>
     <tr>
         <th scope="col"></th>

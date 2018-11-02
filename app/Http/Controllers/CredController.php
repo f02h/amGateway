@@ -17,7 +17,7 @@ class CredController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('BasicAuth');
     }
 
     public function index() {
@@ -93,7 +93,6 @@ class CredController extends Controller
 
     public function edit($id)
     {
-        var_dump('tes');die;
         return view('reg_edit', ['credData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
 
     }

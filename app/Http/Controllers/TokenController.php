@@ -17,7 +17,7 @@ class TokenController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('BasicAuth');
     }
 
     public function index() {
