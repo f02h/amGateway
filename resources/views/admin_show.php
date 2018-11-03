@@ -24,10 +24,10 @@
     print '<tr>
       
       <td><a class="btn edit" href="';
-      print url("/admin/cred/{$row->idGatewayCred}");
+      print url("/admin/gateway/{$row->idGatewayCred}");
       print '">edit</a>
 
-        <button id="delete-'.$row->idGatewayCred.'" class="btn delete"';
+        <button id="delete-gateway-'.$row->idGatewayCred.'" class="btn delete"';
       print '">delete</a></td>
       <td scope="row">'.$row->idGateway.'</td>
       <td>'.$row->username.'</td>
@@ -57,7 +57,7 @@
         print url("/admin/user/{$row->idGatewayUser}");
         print '">edit</a>
 
-        <button id="delete-'.$row->idGatewayUser.'" class="btn delete"';
+        <button id="delete-user-'.$row->idGatewayUser.'" class="btn delete"';
         print '">delete</a></td>
       <td scope="row">'.$row->username.'</td>
     </tr>';
@@ -74,10 +74,11 @@
 <script>
     $(document).on('click', '.delete', function () {
         // your function here
-        var id = this.id.split('-')[1];
+        var id = this.id.split('-')[2];
+        var action = this.id.split('-')[1];
         $.ajax({
             type: 'DELETE',
-            url: '/admin/user/'+id,
+            url: "/admin/"+action+"/"+id,
         }).done(function (data) {
             window.location.href = "/admin";
         }).fail(function () {

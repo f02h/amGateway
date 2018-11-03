@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Msg;
 use App\Cred;
+use App\User;
 use Auth;
 use Illuminate\Support\Facades\Crypt;
 
@@ -25,78 +26,71 @@ class GatewayController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, $id)
+    public function show($id)
     {
-        $this->validate($request, [
-            'idGateway' => 'required',
-            'username' => 'required',
-            'password' => 'required',
-            'host' => 'required',
-            'port' => 'required',
-            'transport' => 'required'
-        ]);
-        if(Auth::user()){
-            $params = $request->all();
-            $cred = Cred::find($id);
-            $cred->update($params);
+        return view('gateway_edit', ['gatewayData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
 
-            return redirect()->route('route_name');
-        }else{
-            return response()->json(['status' => 'fail']);
-        }
+    }
+
+    public function add()
+    {
+        return view('gateway_add');
 
     }
 
     public function create(Request $request)
     {
         $this->validate($request, [
-            'input-idGateway' => 'required',
-            'input-username' => 'required',
-            'input-password' => 'required',
-            'input-host' => 'required',
-            'input-port' => 'required',
-            'input-transport' => 'required'
+            "idGateway" => "required",
+            'username' => 'required',
+            'password' => 'required',
+            'host' => 'required',
+            'port' => 'required',
+            'transport' => 'required'
         ]);
-        if(Auth::user()){
-            $newCred = new Cred();
-            $data = $request->all();
-            $data['password'] = Crypt::encrypt($data['input-password']);
 
-            $newCred->fill($data);
-            $newCred->save();
-            return view('admin_show', ['credData' => Cred::all()]);
-        }else{
-            return response()->json(['status' => 'fail']);
-        }
+        $newCred = new Cred();
+        $data = $request->all();
+        $data['password'] = Crypt::encrypt($data["password"]);
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return view('reg_edit', ['credData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
-
+        $newCred->fill($data);
+        $newCred->save();
+        return redirect("/admin");
     }
 
     public function edit($id)
     {
-        return view('reg_edit', ['credData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
+        $gatewayData = Cred::where('idGatewayCred', $id)->get()->first()->toArray();
+        $gatewayData["password"] = Crypt::decrypt($gatewayData["password"]);
+        return view('gateway_edit', ['gatewayData' => $gatewayData]);
 
+    }
+
+    public function store(Request $request, $id)
+    {
+        $this->validate($request, [
+            "idGateway" => "required",
+            'username' => 'required',
+            'password' => 'required',
+            'host' => 'required',
+            'port' => 'required',
+            'transport' => 'required'
+        ]);
+
+        $params = $request->all();
+        $user = Cred::find($id);
+        if (!$user) {
+            return response()->json(['status' => 'fail']);
+        } else {
+            $params["password"] = Crypt::encrypt($params["password"]);
+            $user->update($params);
+        }
+        return redirect("/admin");
     }
 
     public function delete($id)
     {
         Cred::where('idGatewayCred', $id)->delete();
     }
+
 }

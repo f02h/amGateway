@@ -16,7 +16,7 @@ class Cred extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $table = 'gatewayCred';
 
     protected $fillable = [
-        'idGateway', 'username', 'password', 'salt', 'host', 'port', 'transport'
+        "idGateway",'username', 'password', 'salt', 'host', 'port', 'transport'
     ];
 
 }

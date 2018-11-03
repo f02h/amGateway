@@ -91,7 +91,7 @@ class UserController extends Controller
 
         $newCred->fill($data);
         $newCred->save();
-        return view('admin_show', ['credData' => Cred::all(), 'userData' => User::all()]);
+        return redirect("/admin");
     }
 
     public function edit($id)
@@ -116,7 +116,7 @@ class UserController extends Controller
             $user->update($params);
         }
 
-        return view('admin_show', ['credData' => Cred::all(), 'userData' => User::all()]);
+        return redirect("/admin");
     }
 
     public function delete($id)

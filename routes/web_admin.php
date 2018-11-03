@@ -6,6 +6,7 @@ $router->get('logout', 'AdminController@logout');
 $router->get('gateway/{id}', 'GatewayController@show');
 $router->put('gateway/{id}', 'GatewayController@store');
 $router->post('gateway', 'GatewayController@create');
+$router->get('gateway', 'GatewayController@add');
 $router->delete('gateway/{id}', 'GatewayController@delete');
 
 $router->get('user/{id}', 'UserController@show');
