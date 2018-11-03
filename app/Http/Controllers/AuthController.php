@@ -51,11 +51,11 @@ class AuthController extends BaseController
      */
     public function authenticate(User $user) {
         $this->validate($this->request, [
-            'email'     => 'required|email',
+            'username'     => 'required',
             'password'  => 'required'
         ]);
         // Find the user by email
-        $user = User::where('username', $this->request->input('email'))->first();
+        $user = User::where('username', $this->request->input('username'))->first();
         if (!$user) {
             // You wil probably have some sort of helpers or whatever
             // to make sure that you have the same response format for

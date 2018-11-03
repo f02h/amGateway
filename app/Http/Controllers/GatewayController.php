@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
 use App\Msg;
+use App\Cred;
 use Auth;
 use Illuminate\Support\Facades\Crypt;
 
-class TokenController extends Controller
+class GatewayController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -21,7 +21,7 @@ class TokenController extends Controller
     }
 
     public function index() {
-        return view('admin_show', ['data' => User::all()]);
+        return view('reg_show', ['credData' => Cred::all()]);
     }
 
 
@@ -46,7 +46,7 @@ class TokenController extends Controller
             $cred = Cred::find($id);
             $cred->update($params);
 
-            return view('reg_show', ['data' => Cred::all()]);
+            return redirect()->route('route_name');
         }else{
             return response()->json(['status' => 'fail']);
         }
@@ -64,15 +64,13 @@ class TokenController extends Controller
             'input-transport' => 'required'
         ]);
         if(Auth::user()){
-
-
-            $newCred = new User();
+            $newCred = new Cred();
             $data = $request->all();
             $data['password'] = Crypt::encrypt($data['input-password']);
 
             $newCred->fill($data);
             $newCred->save();
-            return view('reg_show', ['data' => User::all()]);
+            return view('admin_show', ['credData' => Cred::all()]);
         }else{
             return response()->json(['status' => 'fail']);
         }
@@ -87,13 +85,13 @@ class TokenController extends Controller
      */
     public function show($id)
     {
-        return view('reg_edit', ['data' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
+        return view('reg_edit', ['credData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
 
     }
 
     public function edit($id)
     {
-        return view('token_edit', ['data' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
+        return view('reg_edit', ['credData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
 
     }
 

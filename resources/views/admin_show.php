@@ -7,7 +7,7 @@
 <br>
 <a class="btn edit" style="display: block;float: right;margin-right: 20px;" href="<?= url("/") ?>">Logout</a>
 
-<h1 style="display: inline-block; margin: 0 20px;">Gateways</h1><a class="btn edit" style="position: relative;top: -10px;" href="<?= url("/admin/cred") ?>">Add</a>
+<h1 style="display: inline-block; margin: 0 20px;">Gateways</h1><a class="btn edit" style="position: relative;top: -10px;" href="<?= url("/admin/gateway") ?>">Add</a>
 <table class="table" style="margin: 0 20px;">
     <thead>
     <tr>
@@ -41,30 +41,25 @@
     </tbody>
 </table>
 <br>
-<h1 style="display: inline-block; margin: 0 20px;">Tokens</h1><a class="btn edit" style="position: relative;top: -10px;" href="<?= url("/admin/token") ?>">Add</a>
+<h1 style="display: inline-block; margin: 0 20px;">Tokens</h1><a class="btn edit" style="position: relative;top: -10px;" href="<?= url("/admin/user") ?>">Add</a>
 <table class="table" style="margin: 0 20px;">
     <thead>
     <tr>
         <th scope="col"></th>
-        <th scope="col">#</th>
         <th scope="col">Username</th>
-        <th scope="col">token</th>
-        <th scope="col">valid</th>
     </tr>
     </thead>
     <tbody>
 
-    <?php foreach ($tokenData as $row) {
+    <?php foreach ($userData as $row) {
         print '<tr>
       <td><a class="btn edit" href="';
-        print url("/admin/token/{$row->idGatewayToken}");
+        print url("/admin/user/{$row->idGatewayUser}");
         print '">edit</a>
 
-        <button id="delete-'.$row->idGatewayToken.'" class="btn delete"';
+        <button id="delete-'.$row->idGatewayUser.'" class="btn delete"';
         print '">delete</a></td>
-      <td scope="row">'.$row->tokenName.'</td>
-      <td>'.$row->token.'</td>
-      <td>'.$row->valid.'</td>
+      <td scope="row">'.$row->username.'</td>
     </tr>';
 
 
@@ -82,7 +77,7 @@
         var id = this.id.split('-')[1];
         $.ajax({
             type: 'DELETE',
-            url: '/admin/cred/'+id,
+            url: '/admin/user/'+id,
         }).done(function (data) {
             window.location.href = "/admin";
         }).fail(function () {

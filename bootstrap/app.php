@@ -127,7 +127,7 @@ $app->router->group(['middleware' => 'jwt.auth',
 });
 
 $app->router->group(['prefix'=>'admin/', 'middleware' => 'BasicAuth', 'namespace' => 'App\Http\Controllers'], function ($router) {
-    require __DIR__.'/../routes/web_basic.php';
+    require __DIR__.'/../routes/web_admin.php';
 });
 
 
