@@ -7,6 +7,8 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Crypt;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 use App\Cred;
+use App\Register\Arnes;
+use App\Register\Eurid;
 
 
 
@@ -29,23 +31,21 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
-
-
         $schedule->call(function () {
-            foreach (Cred::all() as $gateway) {
-                $epp = null;
-                /*if ($gateway->idGateway == 'Arnes') {
-                    $epp = new \App\Register\Arnes($gateway->username, Crypt::decrypt($gateway->password), $gateway->transport, $gateway->host, $gateway->port);
-                }*/
-
-                if ($gateway->idGateway == 'Eurid') {
-                    $epp = new \App\Register\Eurid($gateway->username, Crypt::decrypt($gateway->password), $gateway->transport, $gateway->host, $gateway->port);
+            foreach (Cred::all() as $gatewayCred) {
+                $gateway = null;
+                $conf = $gatewayCred->toArray();
+                $conf['password'] = Crypt::decrypt($conf['password']);
+                if ($gatewayCred->idGateway == 'Eurid') {
+                    $gateway = new Eurid($conf);
+                } else if ($gatewayCred->idGateway == 'Arnes') {
+                    $gateway = new Arnes($conf);
                 }
 
-                if ($epp) {
-                    $epp->readMessages();
+                if (!is_null($gateway)) {
+                    $gateway->readMessages();
                 }
+
             }
         })->everyTenMinutes();
 

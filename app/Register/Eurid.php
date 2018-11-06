@@ -85,13 +85,13 @@ class Eurid extends EPP
     /**
      * Constructs a new ARNES register wrapper and initializes it.
      */
-    function __construct( $username, $password, $transport, $hostname, $port, $whoisHost=null, $whoisPort=null )
+    function __construct( $conf )
     {
-        $this->_username = $username;
-        $this->_password = $password;
-        $this->_transport = $transport;
-        $this->_hostname = $hostname;
-        $this->_port = $port;
+        $this->_username = $conf['username'];
+        $this->_password = $conf['password'];
+        $this->_transport = $conf['transport'];
+        $this->_hostname = $conf['hostname'];
+        $this->_port = $conf['port'];
 
         $this->init();
     }
