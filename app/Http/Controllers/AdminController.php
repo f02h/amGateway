@@ -23,7 +23,7 @@ class AdminController extends Controller
     }
 
     public function index() {
-        return view('admin_show', ['credData' => Cred::all(), 'userData' => User::all()]);
+        return view('admin_show', ['credData' => Cred::all(), 'userData' => User::all(), 'msgData' => Msg::all()]);
     }
 
     public function logout() {

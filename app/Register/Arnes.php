@@ -86,7 +86,7 @@ class Arnes extends EPP
         $this->_username = $conf['username'];
         $this->_password = $conf['password'];
         $this->_transport = $conf['transport'];
-        $this->_hostname = $conf['hostname'];
+        $this->_hostname = $conf['host'];
         $this->_port = $conf['port'];
 
         $this->init();

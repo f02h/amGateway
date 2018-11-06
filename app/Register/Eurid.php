@@ -90,7 +90,7 @@ class Eurid extends EPP
         $this->_username = $conf['username'];
         $this->_password = $conf['password'];
         $this->_transport = $conf['transport'];
-        $this->_hostname = $conf['hostname'];
+        $this->_hostname = $conf['host'];
         $this->_port = $conf['port'];
 
         $this->init();
@@ -164,6 +164,7 @@ class Eurid extends EPP
                 //$frame->ack($this->_response->queueId());
                 //$this->_epp->request($frame);
                 $i--;
+
 
                 $frame = new AfriCC\EPP\Frame\Command\Poll;
                 $frame->request();

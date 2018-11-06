@@ -67,9 +67,35 @@
 
     </tbody>
 </table>
+</table>
+<br>
+<h1 style="display: inline-block; margin: 0 20px;">Msg</h1>
+<table class="table" style="margin: 0 20px;">
+    <thead>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">idGateway</th>
+        <th scope="col">domain</th>
+        <th scope="col">action</th>
+        <th scope="col">status</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <?php foreach ($msgData as $row) {
+        print '<tr><td scope="row">'.$row->idGateway.'</td>
+<td scope="row">'.$row->domain.'</td>
+<td scope="row">'.$row->action.'</td>
+<td scope="row">'.$row->status.'</td>
+    </tr>';
+
+
+    } ?>
+
+    </tbody>
+</table>
 </body>
 </html>
-
 
 <script>
     $(document).on('click', '.delete', function () {
