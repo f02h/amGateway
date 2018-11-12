@@ -28,7 +28,9 @@ class GatewayController extends Controller
 
     public function show($id)
     {
-        return view('gateway_edit', ['gatewayData' => Cred::where('idGatewayCred', $id)->get()->first()->toArray()]);
+        $data = Cred::where('idGatewayCred', $id)->get()->first()->toArray();
+        $data['password'] = Crypt::decrypt($data["password"]);
+        return view('gateway_edit', ['gatewayData' => $data]);
 
     }
 
