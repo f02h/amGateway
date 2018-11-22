@@ -77,15 +77,17 @@
         <th scope="col">idGateway</th>
         <th scope="col">domain</th>
         <th scope="col">action</th>
+        <th scope="col">msg</th>
         <th scope="col">status</th>
     </tr>
     </thead>
     <tbody>
 
     <?php foreach ($msgData as $row) {
-        print '<tr><td scope="row">'.$row->idGateway.'</td>
+        print '<tr><td></td><td scope="row">'.$row->idGateway.'</td>
 <td scope="row">'.$row->domain.'</td>
 <td scope="row">'.$row->action.'</td>
+<td scope="row">'.$row->msg.'</td>
 <td scope="row">'.$row->status.'</td>
     </tr>';
 
