@@ -93,6 +93,7 @@ class EPP
         $this->_response = $this->_epp->request($frame);
 
         if (!($this->_response instanceof AfriCC\EPP\Frame\Response)) {
+            throw new Domovanje_Register_ERegister( Domovanje_Register_ERegister::ERR_UNKNOWN, 'Response error', $this->_response->result->code );
             return;
         }
 
@@ -106,9 +107,9 @@ class EPP
                     'message' => $this->_response->data() ? $this->_response->data() : ''
                 );
 
-//                $frame = new AfriCC\EPP\Frame\Command\Poll;
-//                $frame->ack($this->_response->queueId());
-//                $this->_epp->request($frame);
+                $frame = new AfriCC\EPP\Frame\Command\Poll;
+                $frame->ack($this->_response->queueId());
+                $this->_epp->request($frame);
 
                 $frame = new AfriCC\EPP\Frame\Command\Poll;
                 $frame->request();
