@@ -15,6 +15,7 @@ class EPP
     protected $_port;
     protected $_request;
     protected $_response;
+    protected $supportedMessages = array('TRANSFER_OUT' => 'TRANSFER_OUT', 'TRANSFER_IN' => 'TRANSFER_IN');
 
     // Server response codes
     const CMD_SUCCESS = 1000;         // Command completed succesfully

@@ -180,6 +180,10 @@ class Eurid extends EPP
             if (!Msg::where('msgId', $msg['messageID'])->first()) {
 
                 $pollData = $msg['message']['pollData'];
+                $msgAction = $pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY' ? 'TRANSFER_OUT' : '';
+                if (!in_array($msgAction, $this->supportedMessages)) {
+                    continue;
+                }
 
                 $newMsg = new \App\Msg();
                 $newMsg->idGateway = 'Eurid';
