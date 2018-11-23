@@ -22,7 +22,6 @@ $router->get('/msg/', function () use ($router) {
 
 //$router->get('msg/{id}/', 'MsgController@show');
 $router->get('msgs/{action}/', 'ApiMsgController@getMessages');
-$router->get('login', 'AuthController@gauthenticate');
 
 $router->get('/reg/{id}', 'CredController@show');
 
