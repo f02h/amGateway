@@ -130,6 +130,12 @@ class Arnes extends EPP
         $messages = parent::readMessages();
         foreach ($messages as $msg) {
             $newMsg = new \App\Msg();
+
+            if (strpos($msg['title'], 'transfer to registrar ' . strtolower($this->_username) . ' APPROVED') !== false) {
+                $newMsg->msgAction = 'TRANSFER';
+                $newMsg->domain = $msg['message']['trnData']['name'];
+            }
+
             $newMsg->idGateway = 'Arnes';
             $newMsg->msgDate = $msg->date;
             $newMsg->msg = $msg->message;
