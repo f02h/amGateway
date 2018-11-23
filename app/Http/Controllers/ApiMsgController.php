@@ -49,12 +49,14 @@ class ApiMsgController extends Controller
             case 'transfer_out':
                 $action = EPP::DOMAIN_TRANSFER_OUT;
                 break;
+            case 'all':
+                break;
             default:
                 break;
         }
 
         $result = array();
-        foreach (Msg::select()->where('idGateway', $idGateway)->where('msgAction', $action)->get() as $msg) {
+        foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->where('msgAction', $action)->get() as $msg) {
             $result[] = $msg->domain;
         }
 
