@@ -20,7 +20,8 @@ class ApiMsgController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
+//        $this->middleware('jwt.auth');
     }
 
     /**
@@ -34,20 +35,30 @@ class ApiMsgController extends Controller
         return response()->json(['status' => 'success','result' => $todo]);
     }
 
-    public function getMessages(Request $request)
+    public function getMessages($action, Request $request)
     {
-        $idGateway = 'Arnes';
+        $idGateway = $request->input('gateway');
+        if (!$idGateway) {
+            return response()->json(['status' => 'error', 'msg' => 'No gateway parameter set.']);
+        }
 
-        $user = $request->get('auth');
-//        $action = $request->get('action');
+        switch ($action) {
+            case 'transfer_in':
+                $action = EPP::DOMAIN_TRANSFER_IN;
+                break;
+            case 'transfer_out':
+                $action = EPP::DOMAIN_TRANSFER_OUT;
+                break;
+            default:
+                break;
+        }
 
-        $action = EPP::DOMAIN_TRANSFER_IN;
         $result = array();
         foreach (Msg::select()->where('idGateway', $idGateway)->where('msgAction', $action)->get() as $msg) {
             $result[] = $msg->domain;
         }
 
-        return response()->json(['status' => 'success', $result, $user]);
+        return response()->json(['status' => 'success', 'domains' => $result]);
 
     }
 
