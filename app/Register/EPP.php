@@ -107,9 +107,9 @@ class EPP
                     'message' => $this->_response->data() ? $this->_response->data() : ''
                 );
 
-//                $frame = new AfriCC\EPP\Frame\Command\Poll;
-//                $frame->ack($this->_response->queueId());
-//                $this->_epp->request($frame);
+                $frame = new AfriCC\EPP\Frame\Command\Poll;
+                $frame->ack($this->_response->queueId());
+                $this->_epp->request($frame);
 
                 $frame = new AfriCC\EPP\Frame\Command\Poll;
                 $frame->request();
