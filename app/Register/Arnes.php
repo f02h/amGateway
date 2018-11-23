@@ -138,7 +138,7 @@ class Arnes extends EPP
 
             $newMsg->idGateway = 'Arnes';
             $newMsg->msgDate = $msg['date'];
-            $newMsg->msg = $msg['message'];
+            $newMsg->msg = json_encode($msg['message']);
             $newMsg->msgId = $msg['messageID'];
             $newMsg->save();
         }
