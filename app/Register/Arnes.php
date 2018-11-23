@@ -132,7 +132,10 @@ class Arnes extends EPP
             $newMsg = new \App\Msg();
 
             if (strpos($msg['title'], 'transfer to registrar ' . strtolower($this->_username) . ' APPROVED') !== false) {
-                $newMsg->msgAction = 'TRANSFER_IN';
+                $newMsg->msgAction = self::DOMAIN_TRANSFER_IN;
+                $newMsg->domain = $msg['message']['trnData']['name'];
+            } else if (strpos($msg['title'], 'transfer to registrar') !== false && strpos($msg['title'], 'APPROVED') !== false && $msg['message']['trnData']['trStatus'] == 'clientApproved') {
+                $newMsg->msgAction = self::DOMAIN_TRANSFER_OUT;
                 $newMsg->domain = $msg['message']['trnData']['name'];
             }
 

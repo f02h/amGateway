@@ -49,7 +49,9 @@ class AuthController extends BaseController
      * @param  \App\User   $user
      * @return mixed
      */
-    public function authenticate(User $user) {
+
+
+    public function authenticate() {
         $this->validate($this->request, [
             'username'     => 'required',
             'password'  => 'required'

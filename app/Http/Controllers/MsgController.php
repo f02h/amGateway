@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+//namespace App\Register;
 
-
+use App\Register\EPP;
 use Illuminate\Http\Request;
 use App\Msg;
 use Auth;
@@ -20,7 +21,7 @@ class MsgController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('BasicAuth');
     }
 
     /**
@@ -78,6 +79,19 @@ class MsgController extends Controller
             }
         }
         return response()->json(['status' => 'success']);
+
+    }
+
+    public function getMessages($action)
+    {
+        $idGateway = 'Arnes';
+        $action = EPP::DOMAIN_TRANSFER_IN;
+        $result = array();
+        foreach (Msg::select()->where('idGateway', $idGateway)->where('msgAction', $action)->get() as $msg) {
+            $result[] = $msg->domain;
+        }
+
+        return response()->json(['status' => 'success', $result]);
 
     }
 

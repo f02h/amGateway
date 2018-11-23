@@ -15,3 +15,5 @@ $router->post('user', 'UserController@create');
 $router->get('user', 'UserController@add');
 $router->delete('user/{id}', 'UserController@delete');
 
+$router->get('msg/{action}/', 'MsgController@getMessages');
+
