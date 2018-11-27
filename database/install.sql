@@ -8,8 +8,8 @@ CREATE TABLE `gatewayMsg` (
   `msgId` varchar(255) DEFAULT NULL,
   `msg` text NOT NULL,
   `status` enum('ACC','NOT_INTERESTED','PROCESSING') DEFAULT NULL,
-  `siInstanceAcc` int(1) DEFAULT NULL ,
-  `hrInstanceAcc`int(1) DEFAULT NULL,
+  `siInstanceAcc` varchar (255) DEFAULT NULL ,
+  `hrInstanceAcc`varchar (255) DEFAULT NULL,
   `instance` varchar(5) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP

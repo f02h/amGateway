@@ -66,11 +66,20 @@ class ApiMsgController extends Controller
             return response()->json(['status' => 'error', 'msg' => 'No gateway parameter set.']);
         }
 
+        $user = User::where('username', $request->auth->username)->first();
+
+        if ($user->instance == 'SI') {
+            $instance = 'siInstance';
+        } else {
+            $instance = 'hrInstance';
+        }
+
         $result = array();
         foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->where('status', 'PROCESSING')->get() as $msg) {
             try {
                 $msg->status = null;
                 $msg->instance = null;
+                $msg->{$instance} = 'NOT_INTERESTED';
                 $msg->save();
             } catch (\Exception $exception) {
                 return response()->json(['status' => 'error', 'msgs' => $exception->getMessage()]);
