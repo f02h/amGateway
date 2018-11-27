@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Register\EPP;
+use App\User;
 use Illuminate\Http\Request;
 use App\Msg;
 use Auth;
@@ -38,6 +39,7 @@ class ApiMsgController extends Controller
     public function getMessages( Request $request)
     {
         $idGateway = $request->input('gateway');
+        $user = $request->input('auth')->username;
         if (!$idGateway) {
             return response()->json(['status' => 'error', 'msg' => 'No gateway parameter set.']);
         }
@@ -46,6 +48,7 @@ class ApiMsgController extends Controller
         foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->whereNull('status')->get() as $msg) {
             try {
                 $msg->status = 'PROCESSING';
+                $msg->instance = $user;
                 $msg->save();
             } catch (\Exception $exception) {
                 return response()->json(['status' => 'error', 'msgs' => $exception->getMessage()]);
@@ -57,6 +60,27 @@ class ApiMsgController extends Controller
 
     }
 
+    public function releaseMessages(Request $request) {
+        $idGateway = $request->input('gateway');
+        if (!$idGateway) {
+            return response()->json(['status' => 'error', 'msg' => 'No gateway parameter set.']);
+        }
+
+        $result = array();
+        foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->where('status', 'PROCESSING')->get() as $msg) {
+            try {
+                $msg->status = null;
+                $msg->instance = null;
+                $msg->save();
+            } catch (\Exception $exception) {
+                return response()->json(['status' => 'error', 'msgs' => $exception->getMessage()]);
+            }
+            $result[] = json_decode($msg->msg);
+        }
+
+        return response()->json(['status' => 'success', 'msgs' => $result]);
+    }
+
     public function confirmMessages(Request $request) {
         $idMessages = $request->input('idMessages');
 
@@ -64,13 +88,23 @@ class ApiMsgController extends Controller
             return response()->json(['status' => 'error', 'msg' => 'No id to confirm.']);
         }
 
+        $user = User::where('username', $request->input('auth')->username)->first();
+
+        if ($user->instance == 'SI') {
+            $instance = 'siInstance';
+        } else {
+            $instance = 'hrInstance';
+        }
+
         try {
             if (is_array($idMessages)) {
                 foreach ($idMessages as $id) {
                     Msg::where('idGatewayMsg', $id)->update(array('status' => 'ACC'));
+                    Msg::where('idGatewayMsg', $id)->update(array($instance => 'ACC'));
                 }
             } else {
                 Msg::where('idGatewayMsg', $idMessages)->update(['status' => 'ACC']);
+                Msg::where('idGatewayMsg', $idMessages)->update([$instance => 'ACC']);
             }
         } catch (\Exception $exception) {
             return response()->json(['status' => 'error', 'msg' => $exception->getMessage()]);

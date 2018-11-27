@@ -54,6 +54,7 @@ CREATE TABLE `gatewayUser` (
   `idGatewayUser` int(11) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(1024) DEFAULT NULL,
+  `instance` varchar(255) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
