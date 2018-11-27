@@ -65,4 +65,22 @@ class ApiMsgController extends Controller
 
     }
 
+    public function confirmMessages(Request $request) {
+        $idMessages = $request->input('idMessages');
+
+        try {
+            if (is_array($idMessages)) {
+                foreach ($idMessages as $id) {
+                    Msg::where('idGatewayMsg', $id)->update(array('status' => 'ACC'));
+                }
+            } else {
+                Msg::where('idGatewayMsg', $idMessages)->update(array('status' => 'ACC'));
+            }
+        } catch (\Exception $exception) {
+            return response()->json(['status' => 'failed', 'msg' => $exception->getMessage()]);
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+
 }
