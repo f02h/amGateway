@@ -58,10 +58,10 @@ class ApiMsgController extends Controller
 
         $result = array();
         foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->where('msgAction','like', '%'.$action.'%')->get() as $msg) {
-            $result[] = $msg->domain;
+            $result[] = json_decode($msg->msg);
         }
 
-        return response()->json(['status' => 'success', 'domains' => $result]);
+        return response()->json(['status' => 'success', 'msgs' => $result]);
 
     }
 
