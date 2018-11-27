@@ -139,6 +139,10 @@ class Arnes extends EPP
                 $newMsg->domain = $msg['message']['trnData']['name'];
             }
 
+            if (!$newMsg->msgAction) {
+                continue;
+            }
+
             $newMsg->idGateway = 'Arnes';
             $newMsg->msgDate = date('Y-m-d H:i:s',strtotime($msg['date']));
             $newMsg->msg = json_encode($msg);
