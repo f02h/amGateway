@@ -14,7 +14,7 @@ class JwtMiddleware
         if(!$token) {
             // Unauthorized response if token not there
             return response()->json([
-                'error' => 'Token not provided.'
+                'error' => 'Access denied.'
             ], 401);
         }
         try {
