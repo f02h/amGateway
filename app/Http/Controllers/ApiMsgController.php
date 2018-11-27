@@ -43,7 +43,8 @@ class ApiMsgController extends Controller
         }
 
         $result = array();
-        foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->get() as $msg) {
+        foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->where('status', '==', 'NULL')->get() as $msg) {
+            Msg::where('idGatewayMsg', $msg->idGatewayMsg)->update(['status' => 'PROCESSING']);
             $result[] = json_decode($msg->msg);
         }
 
@@ -54,16 +55,20 @@ class ApiMsgController extends Controller
     public function confirmMessages(Request $request) {
         $idMessages = $request->input('idMessages');
 
+        if (!$idMessages) {
+            return response()->json(['status' => 'error', 'msg' => 'No id to confirm.']);
+        }
+
         try {
             if (is_array($idMessages)) {
                 foreach ($idMessages as $id) {
                     Msg::where('idGatewayMsg', $id)->update(array('status' => 'ACC'));
                 }
             } else {
-                Msg::where('idGatewayMsg', $idMessages)->update(array('status' => 'ACC'));
+                Msg::where('idGatewayMsg', $idMessages)->update(['status' => 'ACC']);
             }
         } catch (\Exception $exception) {
-            return response()->json(['status' => 'failed', 'msg' => $exception->getMessage()]);
+            return response()->json(['status' => 'error', 'msg' => $exception->getMessage()]);
         }
 
         return response()->json(['status' => 'success']);
