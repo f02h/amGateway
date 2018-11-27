@@ -12,7 +12,7 @@ class Msg extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
-
+    protected $primaryKey = 'idGatewayMsg';
     protected $table = 'gatewayMsg';
 
     protected $fillable = [
