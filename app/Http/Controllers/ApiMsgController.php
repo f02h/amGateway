@@ -43,8 +43,9 @@ class ApiMsgController extends Controller
         }
 
         $result = array();
-        foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->where('status', '==', 'NULL')->get() as $msg) {
-            Msg::where('idGatewayMsg', $msg->idGatewayMsg)->update(['status' => 'PROCESSING']);
+        foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->whereNull('status')->get() as $msg) {
+            $msg->status = 'PROCESSING';
+            $msg->save();
             $result[] = json_decode($msg->msg);
         }
 
