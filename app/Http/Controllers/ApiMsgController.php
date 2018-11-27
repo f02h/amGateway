@@ -39,7 +39,7 @@ class ApiMsgController extends Controller
     public function getMessages( Request $request)
     {
         $idGateway = $request->input('gateway');
-        $user = $request->input('auth')->username;
+        $user = $request->auth->username;
         if (!$idGateway) {
             return response()->json(['status' => 'error', 'msg' => 'No gateway parameter set.']);
         }
@@ -88,7 +88,7 @@ class ApiMsgController extends Controller
             return response()->json(['status' => 'error', 'msg' => 'No id to confirm.']);
         }
 
-        $user = User::where('username', $request->input('auth')->username)->first();
+        $user = User::where('username', $request->auth->username)->first();
 
         if ($user->instance == 'SI') {
             $instance = 'siInstance';
