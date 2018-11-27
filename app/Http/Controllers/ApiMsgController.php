@@ -44,8 +44,12 @@ class ApiMsgController extends Controller
 
         $result = array();
         foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->whereNull('status')->get() as $msg) {
-            $msg->status = 'PROCESSING';
-            $msg->save();
+            try {
+                $msg->status = 'PROCESSING';
+                $msg->save();
+            } catch (\Exception $exception) {
+                return response()->json(['status' => 'error', 'msgs' => $exception->getMessage()]);
+            }
             $result[] = json_decode($msg->msg);
         }
 
