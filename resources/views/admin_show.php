@@ -92,7 +92,7 @@
             print '<tr><td></td><td scope="row">'.$row->idGateway.'</td>
     <td scope="row" style="white-space: nowrap">'.$row->domain.'</td>
     <td scope="row">'.$row->msgAction.'</td>
-    <td scope="row">'.$row->msgDate.'</td>
+    <td scope="row" style="white-space: nowrap">'.$row->msgDate.'</td>
     <td scope="row">'.$row->msg.'</td>
     <td scope="row">'.$row->msgStatus.'</td>
         </tr>';
