@@ -81,6 +81,7 @@
             <th scope="col">idGateway</th>
             <th scope="col">domain</th>
             <th scope="col">action</th>
+            <th scope="col">date</th>
             <th scope="col">msg</th>
             <th scope="col">status</th>
         </tr>
@@ -89,8 +90,9 @@
 
         <?php foreach ($msgData as $row) {
             print '<tr><td></td><td scope="row">'.$row->idGateway.'</td>
-    <td scope="row">'.$row->domain.'</td>
+    <td scope="row" style="white-space: nowrap">'.$row->domain.'</td>
     <td scope="row">'.$row->msgAction.'</td>
+    <td scope="row">'.$row->msgDate.'</td>
     <td scope="row">'.$row->msg.'</td>
     <td scope="row">'.$row->msgStatus.'</td>
         </tr>';
