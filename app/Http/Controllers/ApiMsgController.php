@@ -61,7 +61,7 @@ class ApiMsgController extends Controller
             } catch (\Exception $exception) {
                 return response()->json(['status' => 'error', 'msgs' => $exception->getMessage()]);
             }
-            $result[] = json_decode($msg->msg);
+            $result[] = json_decode($msg);
         }
 
         return response()->json(['status' => 'success', 'msgs' => $result]);
