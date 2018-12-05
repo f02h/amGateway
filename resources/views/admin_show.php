@@ -23,7 +23,7 @@
 
     <?php foreach ($credData as $row) {
         print '<tr>
-          <td><a class="btn edit" href="';
+          <td><a class="btn edit" style="margin-right: 5px;" href="';
           print url("/admin/gateway/{$row->idGatewayCred}");
           print '">edit</a><button id="delete-gateway-'.$row->idGatewayCred.'" class="btn delete"';
           print '">delete</a></td>
@@ -51,7 +51,7 @@
 
         <?php foreach ($userData as $row) {
             print '<tr>
-                <td><a class="btn edit" href="';
+                <td><a class="btn edit" style="margin-right: 5px;" href="';
                 print url("/admin/user/{$row->idGatewayUser}");
                 print '">edit</a><button id="delete-user-'.$row->idGatewayUser.'" class="btn delete"';
                 print '">delete</a></td>
