@@ -23,20 +23,15 @@
 
     <?php foreach ($credData as $row) {
         print '<tr>
-          
           <td><a class="btn edit" href="';
           print url("/admin/gateway/{$row->idGatewayCred}");
-          print '">edit</a>
-    
-            <button id="delete-gateway-'.$row->idGatewayCred.'" class="btn delete"';
+          print '">edit</a><button id="delete-gateway-'.$row->idGatewayCred.'" class="btn delete"';
           print '">delete</a></td>
           <td scope="row">'.$row->idGateway.'</td>
           <td>'.$row->username.'</td>
           <td>'.$row->host.'</td>
           <td>'.$row->port.'</td>
         </tr>';
-
-
     } ?>
 
         </tbody>
@@ -56,16 +51,12 @@
 
         <?php foreach ($userData as $row) {
             print '<tr>
-          <td><a class="btn edit" href="';
-            print url("/admin/user/{$row->idGatewayUser}");
-            print '">edit</a>
-    
-            <button id="delete-user-'.$row->idGatewayUser.'" class="btn delete"';
-            print '">delete</a></td>
-          <td scope="row">'.$row->username.'</td>
-        </tr>';
-
-
+                <td><a class="btn edit" href="';
+                print url("/admin/user/{$row->idGatewayUser}");
+                print '">edit</a><button id="delete-user-'.$row->idGatewayUser.'" class="btn delete"';
+                print '">delete</a></td>
+                <td scope="row">'.$row->username.'</td>
+            </tr>';
         } ?>
 
         </tbody>
@@ -89,15 +80,15 @@
         <tbody>
 
         <?php foreach ($msgData as $row) {
-            print '<tr><td></td><td scope="row">'.$row->idGateway.'</td>
-    <td scope="row" style="white-space: nowrap">'.$row->domain.'</td>
-    <td scope="row">'.$row->msgAction.'</td>
-    <td scope="row" style="white-space: nowrap">'.$row->msgDate.'</td>
-    <td scope="row">'.$row->msg.'</td>
-    <td scope="row">'.$row->msgStatus.'</td>
-        </tr>';
-
-
+            print '<tr>
+                <td></td>
+                <td scope="row">'.$row->idGateway.'</td>
+                <td scope="row" style="white-space: nowrap">'.$row->domain.'</td>
+                <td scope="row">'.$row->msgAction.'</td>
+                <td scope="row" style="white-space: nowrap">'.$row->msgDate.'</td>
+                <td scope="row">'.$row->msg.'</td>
+                <td scope="row">'.$row->status.'</td>
+            </tr>';
         } ?>
 
         </tbody>
