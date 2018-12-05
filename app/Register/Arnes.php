@@ -88,6 +88,7 @@ class Arnes extends EPP
         $this->_transport = $conf['transport'];
         $this->_hostname = $conf['host'];
         $this->_port = $conf['port'];
+        $this->_idGateway = $conf['idGateway'];
 
         $this->init();
     }
@@ -143,7 +144,7 @@ class Arnes extends EPP
                 continue;
             }
 
-            $newMsg->idGateway = 'Arnes';
+            $newMsg->idGateway = $this->_idGateway;
             $newMsg->msgDate = date('Y-m-d H:i:s',strtotime($msg['date']));
             $newMsg->msg = json_encode($msg);
             $newMsg->msgId = $msg['messageID'];

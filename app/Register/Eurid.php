@@ -92,6 +92,7 @@ class Eurid extends EPP
         $this->_transport = $conf['transport'];
         $this->_hostname = $conf['host'];
         $this->_port = $conf['port'];
+        $this->_idGateway = $conf['idGateway'];
 
         $this->init();
     }
@@ -186,7 +187,7 @@ class Eurid extends EPP
                 }
 
                 $newMsg = new \App\Msg();
-                $newMsg->idGateway = 'Eurid';
+                $newMsg->idGateway = $this->_idGateway;
                 $newMsg->domain = $pollData['context'] == 'TRANSFER' && $pollData['objectType'] == 'DOMAIN' ? $pollData['object'] : '';
                 $newMsg->msgAction = $pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY' ? 'TRANSFER_OUT' : '';
                 $newMsg->msgDate = $msg['date'];

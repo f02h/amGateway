@@ -15,6 +15,7 @@ class EPP
     protected $_port;
     protected $_request;
     protected $_response;
+    public $_idGateway;
     public $supportedMessages = array('TRANSFER_OUT' => 'TRANSFER_OUT', 'TRANSFER_IN' => 'TRANSFER_IN');
     public const DOMAIN_TRANSFER_OUT = 'TRANSFER_OUT';
     public const DOMAIN_TRANSFER_IN = 'TRANSFER_IN';
