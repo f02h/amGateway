@@ -44,19 +44,9 @@ class Kernel extends ConsoleKernel
 
                 if (!is_null($gateway)) {
                     $gateway->readMessages();
-                } else {
-                    $newMsg = new \App\Msg();
-                    $newMsg->idGateway = 'Eurid';
-                    $newMsg->domain = '123';
-                    $newMsg->msgAction = 'TRANSFER_IN';
-                    $newMsg->msgDate = date('Y-m-d H-i-s');
-                    $newMsg->msg = 'test';
-                    $newMsg->msgId = '123';
-                    $newMsg->save();
                 }
-
             }
-        })->everyMinute();
+        })->everyFifteenMinutes();
 
     }
 }
