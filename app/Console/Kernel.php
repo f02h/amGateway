@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
                 $conf['password'] = Crypt::decrypt($conf['password']);
                 if ($gatewayCred->idGateway == 'Eurid') {
                     $gateway = new Eurid($conf);
-                } else if ($gatewayCred->idGateway == 'Arnes') {
+                } else if ($gatewayCred->idGateway == 'ArnesKlaro') {
                     $gateway = new Arnes($conf);
                 }
 
