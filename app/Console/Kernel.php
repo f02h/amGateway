@@ -46,7 +46,7 @@ class Kernel extends ConsoleKernel
                     $gateway->readMessages();
                 }
             }
-        })->everyFifteenMinutes();
+        })->everyFiveMinutes();
 
     }
 }
