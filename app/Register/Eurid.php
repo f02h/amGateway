@@ -161,9 +161,9 @@ class Eurid extends EPP
                     'response' => $this->_response
                 );
 
-                //$frame = new AfriCC\EPP\Frame\Command\Poll;
-                //$frame->ack($this->_response->queueId());
-                //$this->_epp->request($frame);
+                $frame = new AfriCC\EPP\Frame\Command\Poll;
+                $frame->ack($this->_response->queueId());
+                $this->_epp->request($frame);
                 $i--;
 
 
@@ -181,17 +181,23 @@ class Eurid extends EPP
             if (!Msg::where('msgId', $msg['messageID'])->first()) {
 
                 $pollData = $msg['message']['pollData'];
-                $msgAction = $pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY' ? 'TRANSFER_OUT' : '';
-                if (!in_array($msgAction, $this->supportedMessages)) {
-                    continue;
+                $newMsg = new \App\Msg();
+
+                if ($pollData['context'] == 'TRANSFER' && $pollData['action'] == 'APPROVE') {
+                    $newMsg->msgAction = self::DOMAIN_TRANSFER_IN;
+                    $newMsg->domain = $msg['message']['trnData']['name'];
+                } else if ($pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY') {
+                    $newMsg->msgAction = self::DOMAIN_TRANSFER_OUT;
+                    $newMsg->domain =$pollData['context'] == 'TRANSFER' && $pollData['objectType'] == 'DOMAIN' ? $pollData['object'] : '';
                 }
 
-                $newMsg = new \App\Msg();
+//                if (!$newMsg->msgAction) {
+//                    continue;
+//                }
+
                 $newMsg->idGateway = $this->_idGateway;
-                $newMsg->domain = $pollData['context'] == 'TRANSFER' && $pollData['objectType'] == 'DOMAIN' ? $pollData['object'] : '';
-                $newMsg->msgAction = $pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY' ? 'TRANSFER_OUT' : '';
-                $newMsg->msgDate = $msg['date'];
-                $newMsg->msg = $msg['response'];
+                $newMsg->msgDate = date('Y-m-d H:i:s',strtotime($msg['date']));
+                $newMsg->msg = json_encode($msg);
                 $newMsg->msgId = $msg['messageID'];
                 $newMsg->save();
             }

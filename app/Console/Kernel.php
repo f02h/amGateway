@@ -9,6 +9,7 @@ use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 use App\Cred;
 use App\Register\Arnes;
 use App\Register\Eurid;
+use App\Register\Joker;
 
 
 
@@ -40,6 +41,8 @@ class Kernel extends ConsoleKernel
                     $gateway = new Eurid($conf);
                 } else if ($gatewayCred->idGateway == 'ArnesKlaro') {
                     $gateway = new Arnes($conf);
+                } else if ($gatewayCred->idGateway == 'JokerDMV') {
+                    $gateway = new Joker($conf);
                 }
 
                 if (!is_null($gateway)) {

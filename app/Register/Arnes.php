@@ -140,9 +140,9 @@ class Arnes extends EPP
                 $newMsg->domain = $msg['message']['trnData']['name'];
             }
 
-            if (!$newMsg->msgAction) {
-                continue;
-            }
+//            if (!$newMsg->msgAction) {
+//                continue;
+//            }
 
             $newMsg->idGateway = $this->_idGateway;
             $newMsg->msgDate = date('Y-m-d H:i:s',strtotime($msg['date']));
