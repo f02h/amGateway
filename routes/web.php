@@ -21,7 +21,7 @@ $router->get('/msg/', function () use ($router) {
 });
 
 //$router->get('msg/{id}/', 'MsgController@show');
-$router->get('/msgs/', 'ApiMsgController@getMessages');
+$router->get('/msgs/{action}', 'ApiMsgController@getMessages');
 $router->get('/msgs/confirm/', 'ApiMsgController@confirmMessages');
 $router->get('/msgs/release/', 'ApiMsgController@releaseMessages');
 

@@ -36,7 +36,7 @@ class ApiMsgController extends Controller
         return response()->json(['status' => 'success','result' => $todo]);
     }
 
-    public function getMessages( Request $request)
+    public function getMessages($action = null, Request $request)
     {
         $idGateway = $request->input('gateway');
         $user = $request->auth->username;
@@ -53,7 +53,12 @@ class ApiMsgController extends Controller
         }
 
         $result = array();
-        foreach (Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->whereNull('status')->whereNull($instance)->get() as $msg) {
+        $select = Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->whereNull('status')->whereNull($instance);
+        if ($action) {
+            $select = $select->where('msgAction', strtoupper($action));
+        }
+
+        foreach ($select->get() as $msg) {
             try {
                 $msg->status = 'PROCESSING';
                 $msg->instance = $user->username;

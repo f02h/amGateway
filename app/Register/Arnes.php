@@ -132,7 +132,7 @@ class Arnes extends EPP
         foreach ($messages as $msg) {
             $newMsg = new \App\Msg();
 
-            if (strpos($msg['title'], 'transfer to registrar ' . strtolower($this->_username) . ' APPROVED') !== false) {
+            if (strpos($msg['title'], 'transfer to registrar ' . strtolower($this->_username) . ' APPROVED') !== false && strtolower($msg['message']['trnData']['reID']) == strtolower($this->_username)) {
                 $newMsg->msgAction = self::DOMAIN_TRANSFER_IN;
                 $newMsg->domain = $msg['message']['trnData']['name'];
             } else if (strpos($msg['title'], 'transfer to registrar') !== false && strpos($msg['title'], 'APPROVED') !== false && $msg['message']['trnData']['trStatus'] == 'clientApproved') {
