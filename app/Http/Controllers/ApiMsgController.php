@@ -54,7 +54,7 @@ class ApiMsgController extends Controller
 
         $result = array();
         $select = Msg::select()->where('idGateway','like', '%'.$idGateway.'%')->whereNull('status')->whereNull($instance);
-        if ($action) {
+        if ($action && $action !== 'all') {
             $select = $select->where('msgAction', strtoupper($action));
         }
 
