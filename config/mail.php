@@ -60,7 +60,7 @@ return [
     | transport layer security protocol should provide great security.
     |
     */
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+//    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Username
