@@ -4,7 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
 
-class ErrorMailer extends Mailable
+class Mailer extends Mailable
 {
     /**
      * Build the message.

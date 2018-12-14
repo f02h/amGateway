@@ -10,7 +10,7 @@ use App\User;
 use Auth;
 use Illuminate\Support\Facades\Crypt;
 
-use App\Mail\ErrorMailer;
+use App\Mail\Mailer;
 use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
@@ -34,7 +34,7 @@ class AdminController extends Controller
     }
 
     public function sendmail() {
-        Mail::to('devel@klaro.si')->send(new ErrorMailer('Arnes', 'test'));
+        Mail::to('devel@klaro.si')->send(new Mailer('Arnes', 'test'));
     }
 
 
