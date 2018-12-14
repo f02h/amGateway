@@ -145,6 +145,7 @@ class Eurid extends EPP
         $this->_response = $this->_epp->request($frame);
 
         if (!($this->_response instanceof AfriCC\EPP\Frame\Response)) {
+            $this->sendMail($this->_username, 'Unknown error.');
             return;
         }
 

@@ -43,7 +43,8 @@ class Joker extends EPP
     public function retrieve($procID, $ignoreTimeout=false) {
 
         if (!$procID) {
-            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_UNKNOWN, 'Action does not offer proc-id or tracking-id.');
+//            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_UNKNOWN, 'Action does not offer proc-id or tracking-id.');
+            $this->sendMail($this->_username, 'Action does not offer proc-id or tracking-id.');
         }
 
         if ($ignoreTimeout) {
@@ -64,18 +65,7 @@ class Joker extends EPP
                 } else
                     if ($ackTmp == 'nac') {
                         // failed
-                        if (strpos($this->getResponse(), 'Permission denied:')!==false) {
-                            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_DOMAIN_OPERATION_NOT_ALLOWED, 'Operation not allowed. Customer has no rights for this domain!', $result['response_header']['status-code']);
-                        } else
-                            if (strpos($this->getResponse(), 'Nameserver not found in the registry')!==false) {
-                                preg_match("/host=(.*)&/i", $params, $dns);
-                                throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_DNS_UNKNOWN, 'DNS \'' . $dns[1] . '\' does not exist in the register.', $result['response_header']['status-code']);
-                            } else if(strpos($this->getResponse(), 'The domain name already has an authorisation code.') !== false) {
-                                // skip message if error setting transfer code
-                                break;
-                            } else {
-                                throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_UNKNOWN, isset($result['response_header']['status-text'])?$result['response_header']['status-text']:'Request failed. Unknown error.', $result['response_header']['status-code']);
-                            }
+                        $this->sendMail($this->_username, $this->getResponse());
                     } else
                         if ($ackTmp == '?') {
                             // timeout, retry
@@ -90,14 +80,16 @@ class Joker extends EPP
                                     break;
                                 }
             } else {
-                throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_UNKNOWN, $result['response_header']['error'], $result['response_header']['status-code']);
+//                throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_UNKNOWN, $result['response_header']['error'], $result['response_header']['status-code']);
+                $this->sendMail($this->_username, $result['response_header']['error'].' : '. $result['response_header']['status-code']);
             }
 
             sleep(2);
         }
 
         if (!$result) {
-            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_TIMEOUT, 'Joker timeout.' );
+//            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_TIMEOUT, 'Joker timeout.' );
+            $this->sendMail($this->_username, 'Joker timeout');
         }
 
         return $result;

@@ -126,4 +126,8 @@ class EPP
 
         return $messages;
     }
+
+    public function sendMail($gateway, $error) {
+        Mail::to(env('SEND_ERROR_EMAIL_TO'))->send(new Mailer($gateway, $error));
+    }
 }
