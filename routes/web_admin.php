@@ -2,6 +2,7 @@
 
 $router->get('/', 'AdminController@index');
 $router->get('logout', 'AdminController@logout');
+$router->get('sendmail', 'AdminController@sendmail');
 
 $router->get('gateway/{id}', 'GatewayController@show');
 $router->put('gateway/{id}', 'GatewayController@store');

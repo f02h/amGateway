@@ -40,6 +40,69 @@ class Joker extends EPP
         return true;
     }
 
+    public function retrieve($procID, $ignoreTimeout=false) {
+
+        if (!$procID) {
+            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_UNKNOWN, 'Action does not offer proc-id or tracking-id.');
+        }
+
+        if ($ignoreTimeout) {
+            $numRetries = 1;
+        } else {
+            $numRetries = Domovanje_Register_Joker::TIMEOUT;
+        }
+
+        for ($i=0; $i<$numRetries; $i++) {
+            $result = $this->retrieveResult($procID);
+
+            if ($result['response_header']['status-code']==0) {
+                $ackTmp = substr($result['response_body'], strpos($result['response_body'], 'Completion-Status: ')+19, 3); // returns 'ack', 'nack' or '?' for busy
+
+                if ($ackTmp == 'ack') {
+                    // success
+                    break;
+                } else
+                    if ($ackTmp == 'nac') {
+                        // failed
+                        if (strpos($this->getResponse(), 'Permission denied:')!==false) {
+                            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_DOMAIN_OPERATION_NOT_ALLOWED, 'Operation not allowed. Customer has no rights for this domain!', $result['response_header']['status-code']);
+                        } else
+                            if (strpos($this->getResponse(), 'Nameserver not found in the registry')!==false) {
+                                preg_match("/host=(.*)&/i", $params, $dns);
+                                throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_DNS_UNKNOWN, 'DNS \'' . $dns[1] . '\' does not exist in the register.', $result['response_header']['status-code']);
+                            } else if(strpos($this->getResponse(), 'The domain name already has an authorisation code.') !== false) {
+                                // skip message if error setting transfer code
+                                break;
+                            } else {
+                                throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_UNKNOWN, isset($result['response_header']['status-text'])?$result['response_header']['status-text']:'Request failed. Unknown error.', $result['response_header']['status-code']);
+                            }
+                    } else
+                        if ($ackTmp == '?') {
+                            // timeout, retry
+                            $result = '';
+                        } else
+                            if ($result['response_header']['status-text']!='Request has been written to mailbox') {
+                                // timeout, retry
+                                $result = '';
+                            } else
+                                if (!$ackTmp) {
+                                    // command successfully executed, but not the ACK/NACK type of message
+                                    break;
+                                }
+            } else {
+                throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_UNKNOWN, $result['response_header']['error'], $result['response_header']['status-code']);
+            }
+
+            sleep(2);
+        }
+
+        if (!$result) {
+            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_TIMEOUT, 'Joker timeout.' );
+        }
+
+        return $result;
+    }
+
     public function readMessages()
     {
 

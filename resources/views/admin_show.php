@@ -6,6 +6,7 @@
 <html>
 <br>
 <a class="btn edit" style="display: block;float: right;margin-right: 20px;" href="<?= url("/") ?>">Logout</a>
+<a class="btn edit" style="position: relative;top: -10px;" href="<?= url("/admin/sendmail") ?>">Send mail</a>
 
 <h1 style="display: inline-block; margin: 0 20px;">Gateways</h1><a class="btn edit" style="position: relative;top: -10px;" href="<?= url("/admin/gateway") ?>">Add</a>
 <div style="width: 100%;padding: 20px;">

@@ -76,6 +76,8 @@ $app->middleware([
     App\Http\Middleware\CorsMiddleware::class
 ]);
 
+$app->register(\Illuminate\Mail\MailServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -147,6 +149,8 @@ $app->router->group(['namespace' => 'App\Http\Controllers',
 //        require __DIR__.'/../routes/web.php';
 //    }
 //);
+
+$app->configure('mail');
 
 
 return $app;

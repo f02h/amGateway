@@ -10,6 +10,9 @@ use App\User;
 use Auth;
 use Illuminate\Support\Facades\Crypt;
 
+use App\Mail\Mailer;
+use Illuminate\Support\Facades\Mail;
+
 class AdminController extends Controller
 {
     /**
@@ -28,6 +31,10 @@ class AdminController extends Controller
 
     public function logout() {
         return redirect('/');
+    }
+
+    public function sendmail() {
+        Mail::to('devel@klaro.si')->send(new Mailer());
     }
 
 
