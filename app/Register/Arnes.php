@@ -138,6 +138,9 @@ class Arnes extends EPP
             } else if (strpos($msg['title'], 'transfer to registrar') !== false && strpos($msg['title'], 'APPROVED') !== false && $msg['message']['trnData']['trStatus'] == 'clientApproved') {
                 $newMsg->msgAction = self::DOMAIN_TRANSFER_OUT;
                 $newMsg->domain = $msg['message']['trnData']['name'];
+            } else if ($msg['title'] && strpos($msg['title'], 'has been deleted from .si') !== false) {
+                $newMsg->msgAction = self::DOMAIN_DELETED;
+                $newMsg->domain = $msg['message']['trnData']['name'];
             }
 
 //            if (!$newMsg->msgAction) {

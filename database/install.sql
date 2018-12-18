@@ -2,7 +2,7 @@ CREATE TABLE `gatewayMsg` (
   `idGatewayMsg` int(11) NOT NULL,
   `idGateway` varchar(45) NOT NULL,
   `domain` varchar(255) DEFAULT NULL,
-  `msgAction` enum('TRANSFER_IN','TRANSFER_OUT') DEFAULT NULL,
+  `msgAction` enum('TRANSFER_IN','TRANSFER_OUT','DELETED') DEFAULT NULL,
   `msgStatus` enum('PENDING','ACK','NACK') DEFAULT NULL,
   `msgDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `msgId` varchar(255) DEFAULT NULL,

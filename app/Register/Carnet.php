@@ -9,7 +9,7 @@ use AfriCC\EPP\Client as EPPClient;
 
 use AfriCC;
 
-class EuridEPPClient extends EPPClient
+class CarnetEPPClient extends EPPClient
 {
     /**
      * This is overriden because why?
@@ -19,7 +19,7 @@ class EuridEPPClient extends EPPClient
      */
     public function connect()
     {
-        if ($this->ssl && 0) {
+        if ($this->ssl) {
             $proto = 'ssl';
 
             $context = stream_context_create();
@@ -31,16 +31,14 @@ class EuridEPPClient extends EPPClient
             }
         } else {
             $proto = 'tls';
-            $context = stream_context_create();
-            stream_context_set_option($context, 'ssl', 'verify_peer', false);
-            stream_context_set_option($context, 'ssl', 'verify_peer_name', false);
-            stream_context_set_option($context, 'ssl', 'allow_self_signed', true);
         }
+
         $target = sprintf('%s://%s:%d', $proto, $this->host, $this->port);
+
         if (isset($context) && is_resource($context)) {
-            $this->socket = stream_socket_client($target, $errno, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT, $context);
+            $this->socket = @stream_socket_client($target, $errno, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT, $context);
         } else {
-            $this->socket = stream_socket_client($target, $errno, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT);
+            $this->socket = @stream_socket_client($target, $errno, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT);
         }
 
         if ($this->socket === false) {
@@ -61,7 +59,11 @@ class EuridEPPClient extends EPPClient
         $greeting = $this->getFrame();
 
         // login
-        $this->login();
+        try {
+            $this->login();
+        } catch (Exception $e) {
+            return false;
+        }
 
         // return greeting
         return $greeting;
@@ -78,9 +80,9 @@ class EuridEPPClient extends EPPClient
 
 }
 
-class Eurid extends EPP
+class Carnet extends EPP
 {
-    const NAMESPACE_URI = 'http://www.eurid.eu/xml/epp/';
+    const NAMESPACE_URI = 'http://www.dns.hr/epp/hr-1.0';
 
     /**
      * Constructs a new ARNES register wrapper and initializes it.
@@ -105,30 +107,24 @@ class Eurid extends EPP
     {
         $this->error = '';
 
-        $this->_epp = new EuridEPPClient([
+        $this->_epp = new CarnetEPPClient([
             'host' => $this->_hostname,
             'port' => $this->_port,
             'username' => $this->_username,
             'password' => $this->_password,
-            'timeout' => 20,
-            'connect_timeout' => 50,
             'services' => [
                 'urn:ietf:params:xml:ns:domain-1.0',
-                'urn:ietf:params:xml:ns:contact-1.0',
+                //'urn:ietf:params:xml:ns:host-1.0',
+                'urn:ietf:params:xml:ns:contact-1.0'
             ],
             'serviceExtensions' => [
-                'http://www.eurid.eu/xml/epp/contact-ext-1.1',
-                'http://www.eurid.eu/xml/epp/authInfo-1.1',
-                'http://www.eurid.eu/xml/epp/domain-ext-2.1',
-                'http://www.eurid.eu/xml/epp/poll-1.2'
-            ]
+                self::NAMESPACE_URI
+            ],
+            'debug' => false,
         ]);
 
-        try {
-            $this->_epp->connect();
-        } catch (Exception $e) {
-            print $e;
-            return false;
+        if ( !$this->_epp->connect() ) {
+            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_CONNECTION_FAILED);
         }
 
         return true;
@@ -138,10 +134,6 @@ class Eurid extends EPP
     {
         $frame = new AfriCC\EPP\Frame\Command\Poll;
         $frame->request();
-
-        $eppElm = $frame->getElementsByTagName('epp')[0];
-        $eppElm->setAttribute('xmlns:poll', 'http://www.eurid.eu/xml/epp/poll-1.2');
-
         $this->_response = $this->_epp->request($frame);
 
         if (!($this->_response instanceof AfriCC\EPP\Frame\Response)) {
@@ -181,19 +173,19 @@ class Eurid extends EPP
         foreach ($messages as $msg) {
             if (!Msg::where('msgId', $msg['messageID'])->first()) {
 
-                $pollData = $msg['message']['pollData'];
                 $newMsg = new \App\Msg();
 
-                if ($pollData['context'] == 'TRANSFER' && $pollData['action'] == 'APPROVE') {
+                if (strpos($msg['title'], 'transfer domene') !== false &&
+                    $msg['message']['messageData']['type'] == 'TRANSFER_IN_CON') {
                     $newMsg->msgAction = self::DOMAIN_TRANSFER_IN;
-                    $newMsg->domain = $msg['message']['trnData']['name'];
-                } else if ($pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY') {
+                    $newMsg->domain = $msg['message']['messageData']['domainName'];
+                } else if (strpos($msg['title'], 'Potvrdjen transfer domene') !== false &&
+                    $msg['message']['messageData']['type'] == 'TRANSFER_OUT_CON') {
                     $newMsg->msgAction = self::DOMAIN_TRANSFER_OUT;
-                    $newMsg->domain =$pollData['context'] == 'TRANSFER' && $pollData['objectType'] == 'DOMAIN' ? $pollData['object'] : '';
-                } else if ($pollData['context'] == 'DOMAIN' && $pollData['action'] == 'RELEASED_FROM_QUARANTINE') {
-                    $newMsg->msgAction = self::DOMAIN_DELETED;
-                    $newMsg->domain = $msg['message']['trnData']['name'];
+                    $newMsg->domain = $msg['message']['messageData']['domainName'];
                 }
+
+                // implement domain delete parser
 
 //                if (!$newMsg->msgAction) {
 //                    continue;
