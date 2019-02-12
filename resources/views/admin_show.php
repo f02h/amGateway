@@ -22,18 +22,25 @@
         </thead>
         <tbody>
 
-    <?php foreach ($credData as $row) {
-        print '<tr>
-          <td><a class="btn edit" style="margin-right: 5px;" href="';
-          print url("/admin/gateway/{$row->idGatewayCred}");
-          print '">edit</a><button id="delete-gateway-'.$row->idGatewayCred.'" class="btn delete"';
-          print '">delete</a></td>
-          <td scope="row">'.$row->idGateway.'</td>
-          <td>'.$row->username.'</td>
-          <td>'.$row->host.'</td>
-          <td>'.$row->port.'</td>
-        </tr>';
-    } ?>
+<!--    --><?php //foreach ($credData as $row) {
+//        print '<tr>
+//          <td><a class="btn edit" style="margin-right: 5px;" href="';
+//          print url("/admin/gateway/{$row->idGatewayCred}");
+//          print '">edit</a><button id="delete-gateway-'.$row->idGatewayCred.'" class="btn delete"';
+//          print '">delete</a></td>
+//          <td scope="row">'.$row->idGateway.'</td>
+//          <td>'.$row->username.'</td>
+//          <td>'.$row->host.'</td>
+//          <td>'.$row->port.'</td>
+//        </tr>';
+//    } ?>
+
+        <?php foreach ($gatewayStats as $gateway => $lastMsgDate) {
+            print '<tr>';
+            print '<td scope="row">'.$gateway.'</td>
+                    <td>'.$lastMsgDate.'</td>';
+            print '</tr>';
+        } ?>
 
         </tbody>
     </table>

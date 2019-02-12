@@ -26,7 +26,7 @@ class AdminController extends Controller
     }
 
     public function index() {
-        return view('admin_show', ['credData' => Cred::all(), 'userData' => User::all(), 'msgData' => Msg::orderBy('idGatewayMsg', 'desc')->take(5)->get()]);
+        return view('admin_show', ['gatewayStats' => getGatewaysStat(),'credData' => Cred::all(), 'userData' => User::all(), 'msgData' => Msg::orderBy('idGatewayMsg', 'desc')->take(5)->get()]);
     }
 
     public function logout() {
@@ -37,5 +37,11 @@ class AdminController extends Controller
         Mail::to('devel@klaro.si')->send(new Mailer('Arnes', 'test'));
     }
 
+    public function getGatewaysStat() {
+        $gateways = array();
+        foreach (Cred::all() as $cred) {
+            $gateways[$cred->idGatewayCred] = Msg::orderBy('idGatewayMsg', 'desc')->take(1)->get('date');
+        }
+    }
 
 }
