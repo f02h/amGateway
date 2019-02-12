@@ -44,6 +44,8 @@ class Kernel extends ConsoleKernel
 //                    $gateway = new Arnes($conf);
 //                } else if ($gatewayCred->idGateway == 'JokerDMV') {
 //                    $gateway = new Joker($conf);
+//                } else if ($gatewayCred->idGateway == 'Carnet') {
+//                    $gateway = new Carnet($conf);
 //                }
 
                 if (!is_null($gateway)) {

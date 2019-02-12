@@ -2,11 +2,14 @@
 
 namespace App\Register;
 
+use App\Msg;
 use Exception;
 
 use AfriCC\EPP\Client as EPPClient;
 
-class ArnesEPPClient extends EPPClient
+use AfriCC;
+
+class CarnetEPPClient extends EPPClient
 {
     /**
      * This is overriden because why?
@@ -74,10 +77,13 @@ class ArnesEPPClient extends EPPClient
     public function close() {
         return true;
     }
+
 }
 
-class Arnes extends EPP
+class Carnet extends EPP
 {
+    const NAMESPACE_URI = 'http://www.dns.hr/epp/hr-1.0';
+
     /**
      * Constructs a new ARNES register wrapper and initializes it.
      */
@@ -101,26 +107,24 @@ class Arnes extends EPP
     {
         $this->error = '';
 
-        $this->_epp = new ArnesEPPClient([
+        $this->_epp = new CarnetEPPClient([
             'host' => $this->_hostname,
             'port' => $this->_port,
             'username' => $this->_username,
             'password' => $this->_password,
             'services' => [
                 'urn:ietf:params:xml:ns:domain-1.0',
-                'urn:ietf:params:xml:ns:host-1.0',
+                //'urn:ietf:params:xml:ns:host-1.0',
                 'urn:ietf:params:xml:ns:contact-1.0'
             ],
             'serviceExtensions' => [
-                'http://www.arnes.si/xml/epp/dnssi-1.2',
-                'http://www.arnes.si/xml/epp/DNScheck-1.0'
+                self::NAMESPACE_URI
             ],
             'debug' => false,
         ]);
 
         if ( !$this->_epp->connect() ) {
-            //throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_CONNECTION_FAILED);
-            return false;
+            throw new Domovanje_Register_ERegister(Domovanje_Register_ERegister::ERR_CONNECTION_FAILED);
         }
 
         return true;
@@ -128,33 +132,75 @@ class Arnes extends EPP
 
     public function readMessages()
     {
-        $messages = parent::readMessages();
-        foreach ($messages as $msg) {
-            $newMsg = new \App\Msg();
+        $frame = new AfriCC\EPP\Frame\Command\Poll;
+        $frame->request();
+        $this->_response = $this->_epp->request($frame);
 
-            if (strpos($msg['title'], 'transfer to registrar ' . strtolower($this->_username) . ' APPROVED') !== false && strtolower($msg['message']['trnData']['reID']) == strtolower($this->_username)) {
-                $newMsg->msgAction = self::DOMAIN_TRANSFER_IN;
-                $newMsg->domain = $msg['message']['trnData']['name'];
-            } else if (strpos($msg['title'], 'transfer to registrar') !== false && strpos($msg['title'], 'APPROVED') !== false && $msg['message']['trnData']['trStatus'] == 'clientApproved') {
-                $newMsg->msgAction = self::DOMAIN_TRANSFER_OUT;
-                $newMsg->domain = $msg['message']['trnData']['name'];
-            } else if ($msg['title'] && strpos($msg['title'], 'has been deleted from .si') !== false) {
-                $newMsg->msgAction = self::DOMAIN_DELETED;
-                $newMsg->domain = $msg['message']['trnData']['name'];
+        if (!($this->_response instanceof AfriCC\EPP\Frame\Response)) {
+            $this->sendMail($this->_username, 'Unknown error.');
+            return;
+        }
+
+        $messages = array();
+        if(is_a($this->_response, 'AfriCC\EPP\Frame\Response\MessageQueue')) {
+            $i = $this->_response->queueCount();
+            //while($this->_response->queueCount()) {
+            while($i > 0) {
+                $messages[] = array(
+                    'date' => $this->_response->queueDate(),
+                    'title' => $this->_response->queueMessage(),
+                    'messageID' => $this->_response->queueId(),
+                    'message' => $this->_response->data() ? $this->_response->data() : '',
+                    'response' => $this->_response
+                );
+
+                $frame = new AfriCC\EPP\Frame\Command\Poll;
+                $frame->ack($this->_response->queueId());
+                $this->_epp->request($frame);
+                $i--;
+
+
+                $frame = new AfriCC\EPP\Frame\Command\Poll;
+                $frame->request();
+                $this->_response = $this->_epp->request($frame);
+
+                if(!is_a($this->_response, 'AfriCC\EPP\Frame\Response\MessageQueue')) {
+                    break;
+                }
             }
+        }
 
-//            if (!$newMsg->msgAction) {
-//                continue;
-//            }
+        foreach ($messages as $msg) {
+            if (!Msg::where('msgId', $msg['messageID'])->first()) {
 
-            $newMsg->idGateway = $this->_idGateway;
-            $newMsg->msgDate = date('Y-m-d H:i:s',strtotime($msg['date']));
-            $newMsg->msg = json_encode($msg);
-            $newMsg->msgId = $msg['messageID'];
-            $newMsg->save();
+                $newMsg = new \App\Msg();
+
+                if (strpos($msg['title'], 'transfer domene') !== false &&
+                    $msg['message']['messageData']['type'] == 'TRANSFER_IN_CON') {
+                    $newMsg->msgAction = self::DOMAIN_TRANSFER_IN;
+                    $newMsg->domain = $msg['message']['messageData']['domainName'];
+                } else if (strpos($msg['title'], 'Potvrdjen transfer domene') !== false &&
+                    $msg['message']['messageData']['type'] == 'TRANSFER_OUT_CON') {
+                    $newMsg->msgAction = self::DOMAIN_TRANSFER_OUT;
+                    $newMsg->domain = $msg['message']['messageData']['domainName'];
+                }
+
+                // implement domain delete parser
+
+//                if (!$newMsg->msgAction) {
+//                    continue;
+//                }
+
+                $newMsg->idGateway = $this->_idGateway;
+                $newMsg->msgDate = date('Y-m-d H:i:s',strtotime($msg['date']));
+                $newMsg->msg = json_encode($msg);
+                $newMsg->msgId = $msg['messageID'];
+                $newMsg->save();
+            }
         }
 
         return true;
-    }
 
+        return $messages;
+    }
 }
