@@ -190,6 +190,10 @@ class Eurid extends EPP
                 } else if ($pollData['context'] == 'TRANSFER' && $pollData['action'] == 'AWAY') {
                     $newMsg->msgAction = self::DOMAIN_TRANSFER_OUT;
                     $newMsg->domain =$pollData['context'] == 'TRANSFER' && $pollData['objectType'] == 'DOMAIN' ? $pollData['object'] : '';
+                } else if ($pollData['context'] == 'DOMAIN' && $pollData['action'] == 'RELEASED_FROM_QUARANTINE') {
+                    $newMsg->msgAction = self::DOMAIN_DELETE;
+                    $newMsg->domain = $pollData['objectType'] == 'DOMAIN' ? $pollData['object'] : '';
+
                 }
 
 //                if (!$newMsg->msgAction) {

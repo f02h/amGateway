@@ -19,6 +19,8 @@ class EPP
     public $supportedMessages = array('TRANSFER_OUT' => 'TRANSFER_OUT', 'TRANSFER_IN' => 'TRANSFER_IN');
     public const DOMAIN_TRANSFER_OUT = 'TRANSFER_OUT';
     public const DOMAIN_TRANSFER_IN = 'TRANSFER_IN';
+    public const DOMAIN_DELETE = 'DOMAIN_DELETE';
+
 
     // Server response codes
     const CMD_SUCCESS = 1000;         // Command completed succesfully
