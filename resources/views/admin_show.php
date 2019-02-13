@@ -73,7 +73,6 @@
 <h1 style="display: inline-block; margin: 0 20px;">Msg</h1>
 <div style="width: 100%;padding: 20px;">
     <div class="container box">
-        <h3 align="center">Live search in laravel using AJAX</h3><br />
         <div class="panel panel-default">
             <div class="panel-heading">Search Customer Data</div>
             <div class="panel-body">

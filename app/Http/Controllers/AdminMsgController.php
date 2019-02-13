@@ -38,21 +38,10 @@ class AdminMsgController extends Controller
             $query = $request->get('query');
             if($query != '')
             {
-                $data = DB::table('tbl_customer')
-                    ->where('CustomerName', 'like', '%'.$query.'%')
-                    ->orWhere('Address', 'like', '%'.$query.'%')
-                    ->orWhere('City', 'like', '%'.$query.'%')
-                    ->orWhere('PostalCode', 'like', '%'.$query.'%')
-                    ->orWhere('Country', 'like', '%'.$query.'%')
-                    ->orderBy('CustomerID', 'desc')
-                    ->get();
                 $data = Msg::where('domain', 'like', '%'.$query.'%')->get();
             }
             else
             {
-                $data = DB::table('tbl_customer')
-                    ->orderBy('CustomerID', 'desc')
-                    ->get();
                 $data = Msg::where('domain', 'like', '%'.$query.'%')->get();
             }
             $total_row = $data->count();
