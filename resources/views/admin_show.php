@@ -82,8 +82,8 @@
                     <table id="search" class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th><input type="text" name="search-gateway" id="search" class="form-control" placeholder="gateway" /></th>
-                            <th><input type="text" name="search-domain" id="search" class="form-control" placeholder="domain" /></th>
+                            <th><input type="text" name="search-gateway" id="search-gateway" class="form-control search" placeholder="gateway" /></th>
+                            <th><input type="text" name="search-domain" id="search-domain" class="form-control search" placeholder="domain" /></th>
                             <th>action</th>
                             <th>status</th>
                             <th>date</th>
@@ -135,7 +135,7 @@
             })
         }
 
-        $(document).on('keyup', '#search', function(){
+        $(document).on('keyup', '.search', function(){
             var query = $(this).val();
             var param = $(this).attr('name').split('-')[1];
             fetch_customer_data(query, param);
