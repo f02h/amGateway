@@ -83,11 +83,11 @@
                     <table id="search" class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th><input type="text" name="search-gateway" id="search-gateway" class="form-control search" placeholder="gateway" /></th>
+                            <th><input type="text" name="search-idGateway" id="search-gateway" class="form-control search" placeholder="gateway" /></th>
                             <th><input type="text" name="search-domain" id="search-domain" class="form-control search" placeholder="domain" /></th>
-                            <th><input type="text" name="search-action" id="search-action" class="form-control search" placeholder="action" /></th>
+                            <th><input type="text" name="search-msgAction" id="search-action" class="form-control search" placeholder="action" /></th>
                             <th>status</th>
-                            <th><input type="text" name="search-date" id="search-date" class="form-control search" placeholder="date" /></th>
+                            <th><input type="text" name="search-msgDate" id="search-date" class="form-control search" placeholder="date" /></th>
                         </tr>
                         </thead>
                         <tbody>
