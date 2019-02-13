@@ -37,24 +37,15 @@ class AdminMsgController extends Controller
             $output = '';
             $query = $request->get('query');
             $param = $request->get('param');
-            if($query != '')
+            $order = $request->get('order');
+            if(!empty($query))
             {
-                switch ($param) {
-                    case 'domain':
-                        $data = Msg::where('domain', 'like', '%' . $query . '%')->get();
-                        break;
-                    case 'gateway':
-                        $data = Msg::where('idGateway', 'like', '%' . $query . '%')->get();
-                        break;
-                    case 'action':
-                        $data = Msg::where('msgAction', 'like', '%' . $query . '%')->get();
-                        break;
-                    case 'date':
-                        $data = Msg::where('msgDate', 'like', '%' . $query . '%')->get();
-                        break;
-                    default:
-                        $data = Msg::where('domain', 'like', '%' . $query . '%')->get();
+                $data = Msg::query();
+                foreach ($query as $qk => $qv) {
+                    $data = $data->where($qk, 'like','%' . $qv . '%' );
                 }
+
+                $data = $data->get();
 
             }
             else

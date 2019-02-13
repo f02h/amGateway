@@ -74,6 +74,11 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="table-responsive">
+                    <select id="search-order">
+                        <option value="date" selected="selected">date</option>
+                        <option value="gateway">gateway</option>
+                        <option value="status">status</option>
+                    </select>
                     <h3 align="center">Total Data : <span id="total_records"></span></h3>
                     <table id="search" class="table table-striped table-bordered">
                         <thead>
@@ -116,12 +121,12 @@
 
         fetch_customer_data();
 
-        function fetch_customer_data(query = '', param = '')
+        function fetch_customer_data(query = '',order = '')
         {
             $.ajax({
                 url:"/admin/search/action",
                 method:'GET',
-                data:{query:query, param:param},
+                data:{query:query, order:order},
                 dataType:'json',
                 success:function(data)
                 {
@@ -132,9 +137,14 @@
         }
 
         $(document).on('keyup', '.search', function(){
-            var query = $(this).val();
-            var param = $(this).attr('name').split('-')[1];
-            fetch_customer_data(query, param);
+            var query = {};
+            $('.search').each(function(i, obj) {
+                if ($(obj).val()) {
+                    query[$(obj).attr('name').split('-')[1]] = $(obj).val();
+                }
+            });
+            var order = $('#serch-order option:selected').text();
+            fetch_customer_data(query, order);
         });
     });
 </script>
