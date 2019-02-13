@@ -82,7 +82,7 @@
                     <table id="search" class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th><input type="text" name="search-gateway" id="search" class="form-control" placeholder="domain" /></th>
+                            <th><input type="text" name="search-gateway" id="search" class="form-control" placeholder="gateway" /></th>
                             <th><input type="text" name="search-domain" id="search" class="form-control" placeholder="domain" /></th>
                             <th>action</th>
                             <th>status</th>
