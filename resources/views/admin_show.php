@@ -81,7 +81,7 @@
                 </div>
                 <div class="table-responsive">
                     <h3 align="center">Total Data : <span id="total_records"></span></h3>
-                    <table class="table table-striped table-bordered">
+                    <table id="search" class="table table-striped table-bordered">
                         <thead>
                         <tr>
                             <th>gateway</th>
@@ -131,7 +131,7 @@
                 dataType:'json',
                 success:function(data)
                 {
-                    $('tbody').html(data.table_data);
+                    $('#search').html(data.table_data);
                     $('#total_records').text(data.total_data);
                 }
             })
