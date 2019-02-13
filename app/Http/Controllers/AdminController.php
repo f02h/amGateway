@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Register\EPP;
 use App\Token;
 use Illuminate\Http\Request;
 use App\Msg;
@@ -26,7 +27,7 @@ class AdminController extends Controller
     }
 
     public function index() {
-        return view('admin_show', ['gatewayStats' => $this->getGatewaysStat(),'credData' => Cred::all(), 'userData' => User::all(), 'msgData' => Msg::orderBy('idGatewayMsg', 'desc')->take(5)->get()]);
+        return view('admin_show', ['gatewayStats' => $this->getGatewaysStat(),'credData' => Cred::all(), 'userData' => User::all(), 'supportedStatus' => EPP::$supportedMessages]);
     }
 
     public function logout() {

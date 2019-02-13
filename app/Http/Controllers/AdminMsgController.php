@@ -46,6 +46,12 @@ class AdminMsgController extends Controller
                     case 'gateway':
                         $data = Msg::where('idGateway', 'like', '%' . $query . '%')->get();
                         break;
+                    case 'action':
+                        $data = Msg::where('msgAction', 'like', '%' . $query . '%')->get();
+                        break;
+                    case 'date':
+                        $data = Msg::where('msgDate', 'like', '%' . $query . '%')->get();
+                        break;
                     default:
                         $data = Msg::where('domain', 'like', '%' . $query . '%')->get();
                 }
