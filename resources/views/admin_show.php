@@ -72,11 +72,7 @@
 <div style="width: 100%;padding: 20px;">
     <div class="container box">
         <div class="panel panel-default">
-            <div class="panel-heading">Search Customer Data</div>
             <div class="panel-body">
-                <div class="form-group">
-                    <input type="text" name="search" id="search" class="form-control" placeholder="Search Customer Data" />
-                </div>
                 <div class="table-responsive">
                     <h3 align="center">Total Data : <span id="total_records"></span></h3>
                     <table id="search" class="table table-striped table-bordered">
