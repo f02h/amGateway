@@ -27,7 +27,7 @@ class AdminMsgController extends Controller
 
     function index()
     {
-        return view('live_search');
+        return view('search');
     }
 
     function action(Request $request)

@@ -18,8 +18,8 @@ $router->delete('user/{id}', 'UserController@delete');
 
 $router->get('msg/{action}/', 'MsgController@getMessages');
 
-$router->get('/live_search', 'AdminMsgController@index');
-$router->get('/live_search/action', 'AdminMsgController@action')->name('message_show.action');
+$router->get('search', 'AdminMsgController@index');
+$router->get('search/action', 'AdminMsgController@action')->name('search.action');
 
 
 
