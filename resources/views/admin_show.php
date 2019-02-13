@@ -1,8 +1,6 @@
 <!-- View stored in resources/views/greeting.php -->
 <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
 <html>
@@ -85,7 +83,7 @@
                         <thead>
                         <tr>
                             <th>gateway</th>
-                            <th>domain</th>
+                            <th><input type="text" name="search-domain" id="search" class="form-control" placeholder="domain" /></th>
                             <th>action</th>
                             <th>status</th>
                             <th>date</th>
@@ -122,16 +120,16 @@
 
         fetch_customer_data();
 
-        function fetch_customer_data(query = '')
+        function fetch_customer_data(query = '', param = '')
         {
             $.ajax({
                 url:"/admin/search/action",
                 method:'GET',
-                data:{query:query},
+                data:{query:query, param:param},
                 dataType:'json',
                 success:function(data)
                 {
-                    $('#search').html(data.table_data);
+                    $('#search tbody').html(data.table_data);
                     $('#total_records').text(data.total_data);
                 }
             })
@@ -139,7 +137,8 @@
 
         $(document).on('keyup', '#search', function(){
             var query = $(this).val();
-            fetch_customer_data(query);
+            var param = $(this).name.split('-')[1];
+            fetch_customer_data(query, param);
         });
     });
 </script>
