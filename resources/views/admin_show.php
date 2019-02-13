@@ -14,10 +14,7 @@
         <thead>
         <tr>
             <th scope="col"></th>
-            <th scope="col">#</th>
-            <th scope="col">Username</th>
-            <th scope="col">host</th>
-            <th scope="col">port</th>
+            <th scope="col">last message date</th>
         </tr>
         </thead>
         <tbody>

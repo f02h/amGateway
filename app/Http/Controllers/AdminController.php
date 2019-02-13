@@ -40,8 +40,12 @@ class AdminController extends Controller
     public function getGatewaysStat() {
         $gateways = array();
         foreach (Cred::all() as $cred) {
-            $gateways[$cred->idGatewayCred] = Msg::orderBy('idGatewayMsg', 'desc')->take(1)->get('date');
+            $lastMsgRow = Msg::where('idGateway', $cred['idGateway'])->orderBy('idGatewayMsg', 'desc')->first();
+            if ($lastMsgRow) {
+                $gateways[$cred['idGateway']] = $lastMsgRow->msgDate;
+            }
         }
+        return $gateways;
     }
 
 }
