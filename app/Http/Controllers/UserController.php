@@ -113,6 +113,7 @@ class UserController extends Controller
         if (!$user) {
             return response()->json(['status' => 'fail']);
         } else {
+            $params['password'] = Hash::make($params['password']);
             $user->update($params);
         }
 

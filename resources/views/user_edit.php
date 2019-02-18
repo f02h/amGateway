@@ -10,10 +10,10 @@
             <?php foreach ($userData as $key => $value) {
                  ?>
                     <div class="col-3 col-sm-12">
-                        <label class="form-label" for="input-<?=$key?>"><?=$key?></label>
+                        <label class="form-label" for="<?=$key?>"><?=$key?></label>
                     </div>
                     <div class="col-9 col-sm-12">
-                        <input class="form-input" type="text" name="<?=$key?>" id="input-<?=$key?>" placeholder="Name" value="<?= $value ?>">
+                        <input class="form-input" type="text" name="<?=$key?>" id="<?=$key?>" placeholder="Name" value="<?= $value ?>">
                     </div>
                 <?php
             } ?>
