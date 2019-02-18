@@ -30,7 +30,7 @@ class EuridEPPClient extends EPPClient
                 stream_context_set_option($context, 'ssl', 'local_cert', $this->local_cert);
             }
         } else {
-            $proto = 'tls';
+            $proto = 'tlsv1.2';
             $context = stream_context_create();
             stream_context_set_option($context, 'ssl', 'verify_peer', false);
             stream_context_set_option($context, 'ssl', 'verify_peer_name', false);
