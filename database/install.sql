@@ -8,9 +8,9 @@ CREATE TABLE `gatewayMsg` (
   `msgId` varchar(255) DEFAULT NULL,
   `msg` text NOT NULL,
   `status` enum('ACC','NOT_INTERESTED','PROCESSING') DEFAULT NULL,
-  `siInstanceAcc` varchar (255) DEFAULT NULL ,
-  `hrInstanceAcc`varchar (255) DEFAULT NULL,
-  `instance` varchar(5) DEFAULT NULL,
+  `siInstance` varchar (255) DEFAULT NULL ,
+  `hrInstance`varchar (255) DEFAULT NULL,
+  `instance` varchar(255) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
