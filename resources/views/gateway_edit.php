@@ -4,7 +4,7 @@
 <html>
 <body>
 <div class="">
-    <form class="form-horizontal" method="post" action='<?= url("admin/gateway/".$gatewayData['idGatewayCred'])?>'>
+    <form class="form-horizontal" method="post" action='<?= secure_url("admin/gateway/".$gatewayData['idGatewayCred'])?>'>
         <input name="_method" type="hidden" value="PUT">
         <div class="form-group" style="width:500px;position: relative">
             <?php foreach ($gatewayData as $key => $value) {
